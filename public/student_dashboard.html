@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="student_dashboard.css">
+</head>
+<body>
+
+  <!-- Profile Sidebar -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-content">
+      <h2>Student Profile</h2>
+      <p><strong>Student Name:</strong> <span id="studentName">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="email">Loading...</span></p>
+      <p><strong>Phoneno:</strong> <span id="phoneno">Loading...</span></p>
+      <p><strong>Age:</strong> <span id="age">Loading...</span></p>
+      <p><strong>Earnings:</strong> <span id="earnings">Loading...</span></p>
+      <p><strong>Current Job:</strong> <span id="currentJob">Loading...</span></p>
+      <button onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- Main Dashboard -->
+  <div class="dashboard">
+    <button class="profile-btn" onclick="toggleSidebar()">Profile</button>
+    <h1>Student Dashboard</h1>
+
+    <!-- Job Listings Section -->
+    <div id="job-listings">
+      <!-- Dynamically populated job listings will go here -->
+    </div>
+
+  </div>
+
+  <script src="student_dashboard.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Micro Gig - Job Poster Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            font-family: 'Arial Rounded MT Bold', 'Lato', sans-serif;
+            color: white;
+            background-image: url('https://images.hdqwalls.com/wallpapers/white-cube-pattern-4k-bu.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 10px;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        nav {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        nav a {
+            display: block;
+            background: #ff5722;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 1rem;
+            width: 200px;
+            text-align: center;
+        }
+
+        nav a:hover {
+            background: #e64a19;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .card .button {
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .card .button:hover {
+            background: #45a049;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 1rem 0;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .job-form {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            flex-direction: column;
+            align-items: flex-start;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .job-form label {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .job-form input, .job-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .job-form button {
+            background: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .job-form button:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Micro Gig - Job Poster Dashboard</h1>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Profile</a>
+        <a href="#" id="postJobsLink">Post Jobs</a>
+        <a href="#">Payments</a>
+    </nav>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="card">
+                <h3>Home</h3>
+                <p>Overview of your posted jobs and updates.</p>
+                <a href="#" class="button">Go to Home</a>
+            </div>
+            <div class="card">
+                <h3>Profile</h3>
+                <p>Manage your personal and business details.</p>
+                <a href="#" class="button">Edit Profile</a>
+            </div>
+            <div class="card">
+                <h3>Post Jobs</h3>
+                <p>Create and list jobs for students to apply.</p>
+                <a href="#" class="button" id="postJobButton">Post a Job</a>
+            </div>
+            <div class="card">
+                <h3>Payments</h3>
+                <p>Manage in-app payments and transactions securely.</p>
+                <a href="#" class="button">Manage Payments</a>
+            </div>
+        </div>
+
+        <div class="job-form" id="jobForm">
+            <label for="jobTitle">Title:</label>
+            <input type="text" id="jobTitle" placeholder="Enter job title">
+
+            <label for="jobDescription">Description:</label>
+            <textarea id="jobDescription" rows="5" placeholder="Enter job description"></textarea>
+
+            <label for="payment">Payment:</label>
+            <input type="number" id="payment" placeholder="Enter payment amount">
+
+            <button id="uploadJob">Upload</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Micro Gig. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Toggle the job form visibility
+        document.getElementById('postJobButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.querySelector('.dashboard').style.display = 'none';
+            document.getElementById('jobForm').style.display = 'flex';
+        });
+
+        // Handle the job upload
+        document.getElementById('uploadJob').addEventListener('click', async function(event) {
+            event.preventDefault();
+            
+            const jobTitle = document.getElementById('jobTitle').value;
+            const jobDescription = document.getElementById('jobDescription').value;
+            const payment = document.getElementById('payment').value;
+
+            if (!jobTitle || !jobDescription || !payment) {
+                alert('Please fill in all fields!');
+                return;
+            }
+
+            const jobData = {
+                name: jobTitle,
+                value: {
+                    description: jobDescription,
+                    payment: parseFloat(payment)
+                }
+            };
+
+            try {
+                const response = await fetch('http://localhost:5000/addData', { // i changed port to 5000 here
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jobData)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert('Job uploaded successfully!');
+                    document.getElementById('jobTitle').value = '';
+                    document.getElementById('jobDescription').value = '';
+                    document.getElementById('payment').value = '';
+                } else {
+                    alert(`Error: ${result.error}`);
+                }
+            } catch (err) {
+                alert('Failed to upload job!');
+                console.error('Error uploading job:', err);
+            }
+        });
+    </script>
+</body>
+</html>

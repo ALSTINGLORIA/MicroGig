@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="signup_student.css">
+</head>
+<body>
+    <form id="signup-form" class="form-section" action="/signupStudent" method="POST">
+        <div id="student-form" class="form hidden">
+            <h2>Register as Student</h2>
+            <label>Name:</label>
+            <input type="text" name="name" required>
+
+            
+            <label>Email:</label>
+            <input type="email" name="email" required>
+
+            
+            <label>Phone No:</label>
+            <input type="tel" name="phoneNo" required>
+
+            
+            <label>Age:</label>
+            <input type="number" name="age" required>
+
+            
+            <label>Date of Birth:</label>
+            <input type="date" name="dob" required>
+
+
+            <label>Aadhar No:</label>
+            <input type="number" name="aadharNo" required>
+
+
+            <!--
+            <label>Upload Aadhar Card:</label>
+            <input type="file" name="studentAadhar" accept="image/*" required>
+            -->
+            
+            <label>Username:</label>
+            <input type="text" name="username" required>
+
+            
+            <label>Password:</label>
+            <input type="password" name="password" required>
+
+            
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</body>
+</html>

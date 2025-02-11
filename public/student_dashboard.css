@@ -1,0 +1,116 @@
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+.dashboard {
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+.sidebar {
+  position: fixed;
+  right: -400px;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  transition: right 0.3s;
+  padding: 20px;
+}
+
+.sidebar-content {
+  margin-top: 20px;
+}
+
+.sidebar h2 {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 24px;
+}
+
+.sidebar p {
+  margin: 5px 0;
+}
+
+#job-listings {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.job {
+  background-color: #fff;
+  padding: 20px;
+  margin: 10px 0;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  min-width: 250px;
+}
+
+.job h3 {
+  margin: 0;
+}
+
+.job p {
+  margin: 5px 0;
+}
+
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.profile-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 20px;
+  display: block;
+  width: 150px;
+  margin: 0 auto;
+}
+
+.profile-btn:hover {
+  background-color: #45a049;
+}
+
+
+button:disabled {
+  background-color: #ccc; 
+  color: #666; 
+  cursor: not-allowed; 
+}
+
+button:disabled:hover {
+  background-color: #ccc; 
+}
