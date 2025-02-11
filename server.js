@@ -120,6 +120,20 @@ app.get(`/student-profile`, async (req, res) => {
     }
 });
 
+// this is for loading the profile of jobPoster when clicking jobPoster profile button
+app.get('/job-poster-profile', async (req, res) => {
+  const jobPosterId = req.query.jobPosterId;  
+  try {
+      const data = await jobPoster.findOne({ _id: jobPosterId });  
+      if (!data) {
+          return res.status(404).json({ message: 'Job Poster not found' });  
+      }
+      res.json(data); 
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' }); 
+  }
+});
 
 
 
@@ -233,7 +247,7 @@ app.post('/addData', async (req, res) => {
   }
 });
 
-// Route to fetch job data (optional, if you need to fetch jobs)
+
 /* the code below is not being used anywhere as of now i was not sure what is was for but i guess we can discuss later 
 app.get('/getJobs', async (req, res) => {
   try {

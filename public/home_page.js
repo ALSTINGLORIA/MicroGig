@@ -11,3 +11,8 @@ function goToLoginPage(){
 
 signup_btn.onclick = goToSignupPage;
 login_btn.onclick = goToLoginPage;
+
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.has('message') && urlParams.get('message') === 'success') {
+    alert('Successfully signed in');
+}
