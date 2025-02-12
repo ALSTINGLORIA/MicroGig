@@ -117,3 +117,4 @@ window.onload = function() {
   loadProfile();
   loadJobListings();
 }
+

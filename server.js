@@ -14,7 +14,12 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, 'public/home_page.html'));
 });
 
-mongoose.connect('mongodb+srv://alstingloria:0chacko0@cluster0.bbfhx.mongodb.net/', {});
+mongoose.connect('mongodb+srv://alstingloria:0chacko0@cluster0.bbfhx.mongodb.net/MicroGigDB', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+})
+.then(() => console.log('Connected to MongoDB'))
+.catch(err => console.log('MongoDB connection error:', err));
 
 // mongoose schema for student details
 const studentSchema = new mongoose.Schema({
