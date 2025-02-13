@@ -14,7 +14,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, 'public/home_page.html'));
 });
 
-mongoose.connect('mongodb+srv://alstingloria:0chacko0@cluster0.bbfhx.mongodb.net/MicroGigDB', {
+mongoose.connect('mongodb+srv://alstingloria:0chacko0@cluster0.bbfhx.mongodb.net/test', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

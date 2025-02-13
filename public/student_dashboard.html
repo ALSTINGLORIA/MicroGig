@@ -27,6 +27,31 @@
     <button class="profile-btn" onclick="toggleSidebar()">Profile</button>
     <h1>Student Dashboard</h1>
 
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <button onclick="toggleFilterDropdown()">Filter</button>
+      <div id="filter-dropdown" class="filter-dropdown">
+        <label for="sort-payment">Payment:</label>
+        <select id="sort-payment">
+          <option value="">Select</option>
+          <option value="payment-asc">Low to High</option>
+          <option value="payment-desc">High to Low</option>
+        </select>
+
+        <label for="location">Location:</label>
+        <input type="text" id="location" placeholder="Enter location">
+
+        <label for="sort-duration">Duration:</label>
+        <select id="sort-duration">
+          <option value="">Select</option>
+          <option value="duration-asc">Short to Long</option>
+          <option value="duration-desc">Long to Short</option>
+        </select>
+
+        <button onclick="applyFilters()">Apply Filters</button>
+      </div>
+    </div>
+
     <!-- Job Listings Section -->
     <div id="job-listings">
       <!-- Dynamically populated job listings will go here -->
