@@ -7,7 +7,6 @@ document.getElementById('profileButton').addEventListener('click', function(even
 });
 
 // Toggle the job form visibility
-
 document.getElementById('postJobButton').addEventListener('click', function(event) {
     event.preventDefault();
     document.querySelector('.dashboard').style.display = 'none';
@@ -28,15 +27,14 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
     }
 
     const jobData = {
-        name: jobTitle,
-        value: {
-            description: jobDescription,
-            payment: parseFloat(payment)
-        }
+        title: jobTitle,
+        description: jobDescription,
+        payment: parseFloat(payment),
+        jobPosterId: localStorage.getItem('jobPosterId') // Assuming jobPosterId is stored in localStorage
     };
 
     try {
-        const response = await fetch('http://localhost:5000/addData', { // i changed port to 5000 here
+        const response = await fetch('http://localhost:5000/jobs', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,12 +1,8 @@
 body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
     margin: 0;
-    font-family: 'Arial Rounded MT Bold', 'Lato', sans-serif;
-    color: white;
-    background-image: url('https://images.hdqwalls.com/wallpapers/white-cube-pattern-4k-bu.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh;
+    padding: 20px;
 }
 
 html, body {
@@ -14,6 +10,8 @@ html, body {
 }
 
 header {
+    text-align: center;
+    margin-bottom: 20px;
     background: rgba(0, 0, 0, 0.7);
     padding: 10px 20px;
     display: flex;
@@ -29,12 +27,17 @@ header h1 {
 
 nav {
     display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
     flex-direction: column;
     align-items: center;
     margin: 20px 0;
 }
 
 nav a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
     display: block;
     background: #ff5722;
     color: white;
@@ -52,6 +55,12 @@ nav a:hover {
 }
 
 .container {
+    max-width: 800px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,41 +69,47 @@ nav a:hover {
 }
 
 .dashboard {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     width: 100%;
     max-width: 1000px;
 }
 
 .card {
-    background: rgba(0, 0, 0, 0.7);
+    flex: 1;
+    min-width: 200px;
+    background: #f9f9f9;
     padding: 20px;
-    border-radius: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
 
 .card h3 {
+    margin-top: 0;
     font-size: 1.5rem;
     margin-bottom: 10px;
 }
 
 .card p {
+    margin: 10px 0;
     font-size: 1rem;
     margin-bottom: 20px;
 }
 
-.card .button {
-    background: #4CAF50;
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #4CAF50;
     color: white;
     text-decoration: none;
-    padding: 10px 20px;
     border-radius: 5px;
-    display: inline-block;
+    cursor: pointer;
 }
 
-.card .button:hover {
-    background: #45a049;
+.button:hover {
+    background-color: #45a049;
 }
 
 footer {
@@ -107,6 +122,7 @@ footer {
 }
 
 .job-form {
+    margin-top: 20px;
     background: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
@@ -118,28 +134,55 @@ footer {
 }
 
 .job-form label {
+    display: block;
+    margin: 10px 0 5px;
     font-size: 1.2rem;
     margin-bottom: 5px;
 }
 
-.job-form input, .job-form textarea {
+.job-form input,
+.job-form textarea {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
     border-radius: 5px;
     border: none;
     font-size: 1rem;
 }
 
 .job-form button {
-    background: #4CAF50;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
 }
 
 .job-form button:hover {
-    background: #45a049;
+    background-color: #45a049;
+}
+
+.posted-jobs {
+    margin-top: 20px;
+}
+
+.job {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.job h3 {
+    margin: 0 0 10px 0;
+}
+
+.job p {
+    margin: 5px 0;
 }

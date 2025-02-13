@@ -1,10 +1,15 @@
 const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const path = require('path');  // for getting file paths
 const bcrypt = require('bcrypt'); //for encryption
 
 const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
+
 app.use(express.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public'))); // for getting html,css,js files
@@ -226,8 +231,36 @@ app.patch('/update-job-status', async (req, res) => {
   }
 });
 
+// Route to accept a job
+app.patch('/accept-job', async (req, res) => {
+  const { jobId, studentId } = req.body;
+  const job = await Job.findById(jobId);
+  if (!job) {
+      return res.status(404).send('Job not found');
+  }
+  job.status = 'accepted';
+  job.studentId = studentId;
+  await job.save();
 
+  // Notify the job poster
+  io.to(job.jobPosterId.toString()).emit('jobAccepted', { jobId: job._id, studentId });
 
+  res.send('Job accepted');
+});
+
+// Socket.io connection
+io.on('connection', (socket) => {
+  console.log('New client connected');
+
+  // Join room for job poster
+  socket.on('joinRoom', (jobPosterId) => {
+      socket.join(jobPosterId);
+  });
+
+  socket.on('disconnect', () => {
+      console.log('Client disconnected');
+  });
+});
 
 // advaitha code
 
@@ -267,6 +300,6 @@ app.get('/getJobs', async (req, res) => {
 
 // we are using port 5000 
 const port = 5000;
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Backend server running on http://localhost:5000`);
 });

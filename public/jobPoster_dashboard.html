@@ -28,8 +28,7 @@
             <div class="card">
                 <h3>Profile</h3>
                 <p>Manage your personal and business details.</p>
-<a href="#" class="button" id="profileButton">Profile</a>
-
+                <a href="#" class="button" id="profileButton">Profile</a>
             </div>
             <div class="card">
                 <h3>Post Jobs</h3>
@@ -40,6 +39,11 @@
                 <h3>Payments</h3>
                 <p>Manage in-app payments and transactions securely.</p>
                 <a href="#" class="button">Manage Payments</a>
+            </div>
+            <div class="card">
+                <h3>View Posted Jobs</h3>
+                <p>View all jobs you have posted.</p>
+                <a href="jobposter_postedJobs.html" class="button" id="viewPostedJobsButton">View Posted Jobs</a>
             </div>
         </div>
 
@@ -54,6 +58,10 @@
             <input type="number" id="payment" placeholder="Enter payment amount">
 
             <button id="uploadJob">Upload</button>
+        </div>
+
+        <div class="posted-jobs" id="postedJobs">
+            <!-- Posted jobs will be loaded here -->
         </div>
     </div>
 
