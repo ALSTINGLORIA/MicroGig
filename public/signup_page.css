@@ -1,59 +1,157 @@
+/* General Styles */
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
-    color: white;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #141e30, #243b55);
+    color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     overflow: hidden;
+    flex-direction: column;
 }
 
+/* Navbar Styles */
+.navbar {
+    width: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.navbar-left a {
+    color: #00f2fe;
+    text-decoration: none;
+    font-size: 1.8rem;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar-left a:hover {
+    color: #4facfe;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.nav-button {
+    color: white;
+    text-decoration: none;
+    padding: 12px 20px;
+    margin: 0 8px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #007bff, #00f2fe);
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
+}
+
+.nav-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
+}
+
+/* Main Container */
 .container {
     text-align: center;
-    background: rgba(0, 0, 0, 0.8); 
+    background: rgba(0, 0, 0, 0.8);
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); 
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
     width: 90%;
     max-width: 600px;
-    max-height: 90vh; 
-    overflow-y: auto; 
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideIn 1.5s ease-in-out;
+    margin-top: 80px;
 }
 
 h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    color: #ff4081; 
+    font-size: 3.5rem;
+    text-shadow: 3px 3px 15px rgba(0, 242, 254, 0.8);
+    animation: fadeIn 1.5s ease-in-out;
 }
 
+p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+/* Role Selection */
 .role-selection {
-    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px; /* Space between buttons */
+    margin-top: 20px;
 }
 
 .role-button {
-    background-color: #ff4081;
+    flex: 1; /* Ensures both buttons take equal space */
+    max-width: 250px; /* Limits button width */
+    background: linear-gradient(135deg, #007bff, #00f2fe);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 15px 30px;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease; 
-    margin: 0 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 242, 254, 0.6);
+    text-align: center;
 }
 
 .role-button:hover {
-    background-color: #e91e63; 
-    transform: scale(1.05); 
+    background: linear-gradient(135deg, #0066cc, #00d0e0);
+    transform: scale(1.05);
 }
 
 .role-button:active {
-    transform: scale(0.95); 
+    transform: scale(0.95);
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .role-selection {
+        flex-direction: column; /* Stack buttons on small screens */
+        gap: 15px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
