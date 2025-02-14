@@ -1,8 +1,16 @@
-body {
-  font-family: Arial, sans-serif;
+/* General Styles */
+* {
   margin: 0;
   padding: 0;
-  background-color: #f4f4f4;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #141e30, #243b55);
+  color: white;
+  margin: 0;
+  padding: 0;
 }
 
 .dashboard {
@@ -12,6 +20,7 @@ body {
 h1 {
   text-align: center;
   margin-bottom: 20px;
+  text-shadow: 3px 3px 15px rgba(0, 242, 254, 0.8);
 }
 
 .sidebar {
@@ -20,10 +29,11 @@ h1 {
   top: 0;
   width: 300px;
   height: 100%;
-  background-color: #333;
+  background: rgba(0, 0, 0, 0.8);
   color: white;
   transition: right 0.3s;
   padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .sidebar-content {
@@ -41,9 +51,9 @@ h1 {
 }
 
 #job-listings {
-  background-color: white;
+  background: rgba(0, 0, 0, 0.8);
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
   padding: 20px;
   margin-top: 20px;
   display: flex;
@@ -52,11 +62,11 @@ h1 {
 }
 
 .job {
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   margin: 10px 0;
   border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px rgba(0, 242, 254, 0.4);
   width: 30%;
   min-width: 250px;
 }
@@ -70,62 +80,70 @@ h1 {
 }
 
 button {
-  background-color: #4CAF50;
+  background: linear-gradient(135deg, #007bff, #00f2fe);
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 12px 24px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
+  text-transform: uppercase;
 }
 
 button:hover {
-  background-color: #45a049;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
+}
+
+button:active {
+  transform: scale(0.95);
 }
 
 .profile-btn {
-  background-color: #4CAF50;
+  background: linear-gradient(135deg, #007bff, #00f2fe);
   color: white;
-  padding: 10px 20px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  margin-bottom: 20px;
-  display: block;
+  font-weight: bold;
   width: 150px;
   margin: 0 auto;
+  display: block;
+  text-transform: uppercase;
 }
 
 .profile-btn:hover {
-  background-color: #45a049;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
 }
 
 button:disabled {
-  background-color: #ccc; 
-  color: #666; 
-  cursor: not-allowed; 
-}
-
-button:disabled:hover {
-  background-color: #ccc; 
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
 }
 
 .filter-bar {
   position: fixed;
-  right: 20px; /* Position the filter bar to the right */
-  top: 100px; /* Adjust the top position as needed */
+  right: 20px;
+  top: 100px;
   z-index: 2;
 }
 
 .filter-dropdown {
   display: none;
   position: absolute;
-  right: 0; /* Align the dropdown to the right */
-  background-color: #f9f9f9;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
   min-width: 200px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 242, 254, 0.4);
   z-index: 1;
+  border-radius: 8px;
 }
 
 .filter-dropdown label, .filter-dropdown select, .filter-dropdown button {
@@ -133,15 +151,36 @@ button:disabled:hover {
   padding: 8px 16px;
   width: 100%;
   box-sizing: border-box;
+  color: white;
+  font-weight: bold;
+}
+
+.filter-dropdown select {
+  background: rgba(255, 255, 255, 0.9);
+  color: black;
+  border-radius: 8px;
 }
 
 .filter-dropdown button {
-  background-color: #4CAF50;
+  background: linear-gradient(135deg, #007bff, #00f2fe);
   color: white;
   border: none;
   cursor: pointer;
 }
 
 .filter-dropdown button:hover {
-  background-color: #45a049;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-30px);
+  }
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
 }
