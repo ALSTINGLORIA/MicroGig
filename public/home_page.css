@@ -1,35 +1,44 @@
-
+/* General Styles */
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #4facfe, #00f2fe);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #141e30, #243b55);
     color: #fff;
+    overflow-x: hidden;
 }
 
-
+/* Navbar Styles */
 .navbar {
     width: 100%;
-    background-color: #333;
+    background: rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 15px 30px;
     position: fixed;
     top: 0;
     left: 0;
     z-index: 1000;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .navbar-left a {
-    color: white;
+    color: #00f2fe;
     text-decoration: none;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: bold;
+    transition: color 0.3s;
+}
+
+.navbar-left a:hover {
+    color: #4facfe;
 }
 
 .navbar-right {
@@ -37,59 +46,76 @@ body {
     align-items: center;
 }
 
-
 .nav-button {
     color: white;
     text-decoration: none;
-    padding: 10px 15px;
-    margin: 0 5px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff; 
-    transition: background-color 0.3s, transform 0.2s;
+    padding: 12px 20px;
+    margin: 0 8px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #007bff, #00f2fe);
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
 }
-
 
 .nav-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
 }
 
-
+/* Main Container */
 .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh; 
-    margin-top: 60px; 
+    height: 100vh;
+    margin-top: 80px;
+    text-align: center;
+    animation: slideIn 1.5s ease-in-out;
 }
-
 
 h1 {
-    font-size: 3rem;
-    text-align: center;
-    animation: fadeIn 1.5s;
+    font-size: 3.5rem;
+    text-shadow: 3px 3px 15px rgba(0, 242, 254, 0.8);
+    animation: fadeIn 1.5s ease-in-out;
 }
 
+p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.8;
+}
 
+/* Responsive Design */
 @media (max-width: 768px) {
     h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
     }
 
-    .navbar-right .nav-button {
-        font-size: 0.9rem; 
-        padding: 8px 10px; 
+    .nav-button {
+        font-size: 0.9rem;
+        padding: 10px 15px;
     }
 }
 
-
+/* Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
     }
     to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
         opacity: 1;
     }
 }
