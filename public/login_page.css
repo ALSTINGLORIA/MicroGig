@@ -1,3 +1,4 @@
+/* General Styles */
 * {
     margin: 0;
     padding: 0;
@@ -5,8 +6,8 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #141e30, #243b55);
     color: white;
     display: flex;
     justify-content: center;
@@ -14,45 +15,124 @@ body {
     height: 100vh;
 }
 
-h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
-
+/* Form Container */
 form {
     text-align: center;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.8);
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    width: 90%;
+    max-width: 400px;
+    animation: fadeIn 1.5s ease-in-out;
 }
 
+/* Form Heading */
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 15px rgba(0, 242, 254, 0.8);
+}
+
+/* Labels */
 label {
     display: block;
-    margin-bottom: 10px;
+    font-size: 1.2rem;
+    margin-bottom: 8px;
 }
 
+/* Input Fields */
 select,
 input[type="text"],
 input[type="password"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    outline: none;
+    transition: 0.3s ease-in-out;
 }
 
+input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* Input Focus Effect */
+select:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
+}
+/* Dropdown Styling */
+select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.9); /* Light background */
+    color: black; /* Black font */
+    outline: none;
+    transition: 0.3s ease-in-out;
+    font-weight: bold;
+}
+
+/* Ensure the dropdown options are also visible */
+select option {
+    background: white;  /* White background */
+    color: black;  /* Black text */
+}
+
+/* Submit Button */
 button {
-    background-color: #ff4081;
+    background: linear-gradient(135deg, #007bff, #00f2fe);
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     padding: 15px 30px;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
+    text-transform: uppercase;
 }
 
 button:hover {
-    background-color: #e91e63;
+    transform: translateY(-3px);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    form {
+        width: 90%;
+        padding: 30px;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
