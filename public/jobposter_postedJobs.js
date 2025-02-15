@@ -1,5 +1,12 @@
+// function to set jobposter id in local storage
+ function setJobPosterId(id) {
+    localStorage.setItem('jobPosterId', id);
+    window.location.href = '/jobPoster_dashboard.html'; 
+ }
+
 // Function to load the jobs posted by the current job poster
 async function loadPostedJobs() {
+    
     const jobPosterId = localStorage.getItem('jobPosterId'); // Assuming jobPosterId is stored in localStorage
     if (!jobPosterId) {
         console.error('No job poster ID found.');

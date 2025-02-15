@@ -248,6 +248,20 @@ app.patch('/accept-job', async (req, res) => {
   res.send('Job accepted');
 });
 
+// Route to get jobs posted by a specific job poster
+app.get('/jobs', async (req, res) => {
+    const jobPosterId = req.query.jobPosterId;
+    if (!jobPosterId) {
+        return res.status(400).json({ message: 'Job Poster ID is required' });
+    }
+    try {
+        const jobs = await Job.find({ jobPosterId });
+        res.json(jobs);
+    } catch (err) {
+        res.status(500).json({ message: 'Server error', error: err.message });
+    }
+});
+
 // Socket.io connection
 io.on('connection', (socket) => {
   console.log('New client connected');
