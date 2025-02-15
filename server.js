@@ -135,6 +135,68 @@ app.get('/job-poster-profile', async (req, res) => {
   }
 });
 
+// this is for when clicking the job details cards we go to a new page showing the decription of that job
+app.get('/job-details', async (req, res) => {
+  const jobId = req.query.jobId;  
+  try {
+      const data = await Job.findOne({ _id: jobId });  
+      if (!data) {
+          return res.status(404).json({ message: 'Job Poster not found' });  
+      }
+      res.json(data); 
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' }); 
+  }
+});
+
+const acceptedJobSchema = new mongoose.Schema({
+  jobPosterId: String,
+  studentId: String,
+  jobId: String, 
+  studentName: String,
+  email: String,
+  phoneNo: String,
+  title: String,
+  description: String,
+  location: String,
+  payment: Number,
+  status: String,
+  time: String,
+  day: String
+});
+
+const acceptedJob = mongoose.model('acceptedjobs', acceptedJobSchema);
+
+app.get('/accepted-jobs', async (req, res) => {
+ 
+  const jobPosterId = req.query.jobPosterId;  
+  try {
+      const jobs = await acceptedJob.find({ jobPosterId: jobPosterId });  
+      if (!jobs.length) {
+          return res.status(404).json({ message: 'No accepted jobs found for this job poster.' });  
+      }
+      res.json(jobs); 
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' }); 
+  }
+});
+
+app.get('/student-accepted-jobs', async (req, res) => {
+ 
+  const studentId = req.query.studentId;  
+  try {
+      const jobs = await Job.find({ studentId: studentId });  
+      if (!jobs.length) {
+          return res.status(404).json({ message: 'No accepted jobs found for this job poster.' });  
+      }
+      res.json(jobs); 
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Server error' }); 
+  }
+});
 
 
 //adithya code from here
@@ -161,8 +223,14 @@ const jobSchema = new mongoose.Schema({
   description: String,
   location: String,
   payment: Number,
-  status: String
+  status: String,
+  time: String,
+  day: String,
+  jobPosterId: String,
+  studentId: String,
 }, { collection: 'job' });
+
+
 
 // the below line is the model for studentDetails table which is not currently in use will later decide what to do with it
 // const Student1 = mongoose.model('Student1', studentSchema2);
@@ -210,8 +278,25 @@ app.get("/job-listings", async (req, res) => {
 // updating the job status to db using patch
 app.patch('/update-job-status', async (req, res) => {
   try {
-    const { jobId, status } = req.body;
-    const job = await Job.findByIdAndUpdate(jobId, { status }, { new: true });
+    const { jobId,studentId, status } = req.body;
+    const job = await Job.findByIdAndUpdate(jobId, { status,studentId }, { new: true });
+    const jobData = await Job.findOne({ _id: jobId }); 
+    const data = await student.findOne({ _id: studentId }); 
+    const result = await acceptedJob.create({
+      studentId: studentId,
+      jobPosterId: jobData.jobPosterId,
+      jobId: jobId,   
+      title: jobData.title, // Job title
+      description: jobData.description, // Job description
+      location: jobData.location, // Job location
+      payment: jobData.payment, // Payment amount
+      time: jobData.time, // Job time
+      day: jobData.day, // Job day
+      studentName: data.name,
+      email: data.email,
+      phoneNo: data.phoneNo
+
+  });
     if (!job) {
       return res.status(404).json({ message: 'Job not found' });
     }
@@ -223,22 +308,28 @@ app.patch('/update-job-status', async (req, res) => {
 
 
 
-
 // advaitha code
 
 // Route to insert job data
 app.post('/addData', async (req, res) => {
-  const { name, value } = req.body; // 'name' is the job title, 'value' contains description and payment
-  if (!name || !value || !value.description || !value.payment) {
+  const { name, value } = req.body; // 'name' is the job title, 'value' contains description, payment, time, and day
+  if (!name || !value || !value.description || !value.payment || !value.time || !value.day || !value.location) {
+
       return res.status(400).send({ error: 'Missing required fields' });
   }
 
   try {
+      const timeValue = `${value.time} ${value.jobAmPm}`;
       const result = await Job.create({    // i changed the collection in your code to Job since it is the variable name i have used above for this collection model
           title: name, // Job title
           description: value.description, // Job description
           payment: value.payment, // Payment amount
-          status: "waiting"  // i added the staus will inserting as well to show it for the student
+          status: "waiting",  // i added the status while inserting as well to show it for the student
+          time: timeValue, // Job time
+          day: value.day, // Job day
+          location: value.location, // Job location
+          jobPosterId: value.jobPosterId,
+          studentId: "",
       });
       res.status(200).send({ message: 'Job uploaded successfully!', id: result.insertedId });
   } catch (err) {
@@ -260,8 +351,34 @@ app.get('/getJobs', async (req, res) => {
 });
 */
 
+// Cancel job endpoint
+app.post('/canceljob', async (req, res) => {
+    const { jobId } = req.body;
+    try {
+        // Update the job status in the jobs collection
+        const job = await Job.findByIdAndUpdate(jobId, 
+            { status: 'waiting', studentId: "" }, 
+            { new: true }
+        );
+        
+        if (!job) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+        // Delete the corresponding entry from acceptedjobs collection
+        await acceptedJob.deleteOne({ jobId: jobId });
+        
+        res.json({ message: 'Job cancelled successfully', job });
+    } catch (error) {
+        console.error('Error cancelling job:', error);
+        res.status(500).json({ message: 'Error cancelling job' });
+    }
+});
+
+
 // we are using port 5000 
 const port = 5000;
+
 app.listen(port, () => {
     console.log(`Backend server running on http://localhost:5000`);
 });

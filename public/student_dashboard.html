@@ -26,6 +26,11 @@
   <div class="dashboard">
     <button class="profile-btn" onclick="toggleSidebar()">Profile</button>
     <h1>Student Dashboard</h1>
+    
+    <!-- Accepted Jobs Button -->
+    <button class="accepted-jobs-btn" onclick="window.location.href='student_acceptedJobs.html?studentId=' + localStorage.getItem('studentId')">
+      Accepted Jobs
+    </button>
 
     <!-- Job Listings Section -->
     <div id="job-listings">

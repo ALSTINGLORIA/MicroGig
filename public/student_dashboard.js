@@ -1,4 +1,6 @@
-
+const urlParams = new URLSearchParams(window.location.search);
+const studentId = urlParams.get('studentId'); 
+localStorage.setItem('studentId', studentId);
 function toggleSidebar() {
   const sidebar = document.getElementById("sidebar");
   const right = sidebar.style.right === "0px" ? "-300px" : "0px";
@@ -8,8 +10,7 @@ function toggleSidebar() {
 
 async function loadProfile() {
   // const studentId = localStorage.getItem('studentId'); 
-  const urlParams = new URLSearchParams(window.location.search);
-  const studentId = urlParams.get('studentId'); 
+
   if (!studentId) {
     console.error('No student ID found in local storage.');
     return;
@@ -52,48 +53,37 @@ async function loadJobListings() {
 
     // Loop through the jobs and dynamically create job elements
     jobs.forEach(job => {
-      const jobElement = document.createElement('div');
-      jobElement.classList.add('job');
+      if (job.status === 'waiting') {
+        const jobElement = document.createElement('div');
+        jobElement.classList.add('job');
       
-      let acceptButton = '';
+
+      // let acceptButton = '';
 
       // Only show the "Accept" button for jobs that are 'waiting'
-      if (job.status === 'waiting') {
+ /*     if (job.status === 'waiting') {
         acceptButton = `<button onclick="acceptJob('${job._id}')">Accept</button>`;
       } else {
         // For non-waiting jobs, show the button but disabled
         acceptButton = `<button disabled>Accept (Not Available)</button>`;
       }
+*/
 
-      jobElement.innerHTML = `
-        <h3>${job.title}</h3>
+    jobElement.innerHTML = `
+        <h3><a href="jobDetails.html?jobId=${job._id}">${job.title}</a></h3>
         <p>${job.description}</p>
         <p>Status: ${job.status}</p>
-        ${acceptButton}
+
+
       `;
       jobListingsContainer.appendChild(jobElement);
+    }
     });
   } catch (err) {
     console.error('Error fetching job listings:', err);
   }
 }
 
-// Simulate accepting a job
-function acceptJob(jobId) {
-  console.log(`Job with ID ${jobId} accepted.`);
-  // Here, you can make an API request to the backend to update the job status
-  fetch('http://localhost:5000/update-job-status', {
-    method: 'PATCH',
-    body: JSON.stringify({ jobId, status: 'accepted' }),
-    headers: { 'Content-Type': 'application/json' },
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log('Job accepted:', data);
-    loadJobListings();  // Refresh job listings after accepting the job
-  })
-  .catch(error => console.error('Error accepting job:', error));
-}
 
 // Function to toggle the sidebar visibility
 function toggleSidebar() {

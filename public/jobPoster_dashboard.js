@@ -1,13 +1,18 @@
 // Handle profile button click
+const urlParams = new URLSearchParams(window.location.search);
+const jobPosterId = urlParams.get('jobPosterId');
+localStorage.setItem('jobPosterId', jobPosterId);
 document.getElementById('profileButton').addEventListener('click', function(event) {
     event.preventDefault();
-    const urlParams = new URLSearchParams(window.location.search);
-    const jobPosterId = urlParams.get('jobPosterId');
     window.location.href = `jobPoster_profile.html?jobPosterId=${jobPosterId}`;
 });
 
-// Toggle the job form visibility
+document.getElementById('notificationButton').addEventListener('click', function(event) {
+    event.preventDefault();
+    window.location.href = `accepted_jobs.html?jobPosterId=${jobPosterId}`;
+});
 
+// Toggle the job form visibility
 document.getElementById('postJobButton').addEventListener('click', function(event) {
     event.preventDefault();
     document.querySelector('.dashboard').style.display = 'none';
@@ -18,11 +23,16 @@ document.getElementById('postJobButton').addEventListener('click', function(even
 document.getElementById('uploadJob').addEventListener('click', async function(event) {
     event.preventDefault();
     
+
     const jobTitle = document.getElementById('jobTitle').value;
     const jobDescription = document.getElementById('jobDescription').value;
     const payment = document.getElementById('payment').value;
+    const jobTime = document.getElementById('jobTime').value; 
+    const jobDay = document.getElementById('jobDay').value; 
+    const jobLocation = document.getElementById('jobLocation').value;  
+    const jobTimeAmPm = document.getElementById('jobTimeAmPm').value; 
 
-    if (!jobTitle || !jobDescription || !payment) {
+    if (!jobTitle || !jobDescription || !payment || !jobTime || !jobDay || !jobLocation) {
         alert('Please fill in all fields!');
         return;
     }
@@ -31,12 +41,17 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
         name: jobTitle,
         value: {
             description: jobDescription,
-            payment: parseFloat(payment)
+            payment: parseFloat(payment),
+            time: jobTime, 
+            day: jobDay, 
+            jobAmPm: jobTimeAmPm,
+            location: jobLocation,
+            jobPosterId: jobPosterId
         }
     };
 
     try {
-        const response = await fetch('http://localhost:5000/addData', { // i changed port to 5000 here
+        const response = await fetch('http://localhost:5000/addData', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,6 +65,9 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
             document.getElementById('jobTitle').value = '';
             document.getElementById('jobDescription').value = '';
             document.getElementById('payment').value = '';
+            document.getElementById('jobTime').value = ''; 
+            document.getElementById('jobDay').value = ''; 
+            document.getElementById('jobLocation').value = ''; 
         } else {
             alert(`Error: ${result.error}`);
         }
