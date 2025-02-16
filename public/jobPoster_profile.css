@@ -84,7 +84,11 @@ input:focus {
     outline: none;
 }
 
+<<<<<<< Updated upstream
 button[type="submit"] {
+=======
+button {
+>>>>>>> Stashed changes
     background-color: #007bff;
     color: white;
     border: none;
@@ -95,11 +99,19 @@ button[type="submit"] {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+<<<<<<< Updated upstream
 button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
 button[type="submit"]:active {
+=======
+button:hover {
+    background-color: #0056b3;
+}
+
+button:active {
+>>>>>>> Stashed changes
     transform: scale(0.95);
 }
 
@@ -109,7 +121,11 @@ button[type="submit"]:active {
         font-size: 1.5rem;
     }
 
+<<<<<<< Updated upstream
     button[type="submit"] {
+=======
+    button {
+>>>>>>> Stashed changes
         font-size: 1rem;
         padding: 10px 20px;
     }

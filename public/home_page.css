@@ -6,6 +6,7 @@
     scroll-behavior: smooth;
 }
 
+/* Body Styles */
 body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(to right, #141e30, #243b55);
@@ -73,6 +74,7 @@ body {
     margin-top: 80px;
     text-align: center;
     animation: slideIn 1.5s ease-in-out;
+<<<<<<< Updated upstream
 }
 
 h1 {
@@ -87,6 +89,23 @@ p {
     opacity: 0.8;
 }
 
+=======
+}
+
+/* Typography */
+h1 {
+    font-size: 3.5rem;
+    text-shadow: 3px 3px 15px rgba(0, 242, 254, 0.8);
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+p {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    opacity: 0.8;
+}
+
+>>>>>>> Stashed changes
 /* Responsive Design */
 @media (max-width: 768px) {
     h1 {

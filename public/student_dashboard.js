@@ -174,9 +174,15 @@ function deg2rad(deg) {
 // Logout function
 function logout() {
   alert("You have been logged out!");
+<<<<<<< Updated upstream
   // Clear session or local storage if needed
   localStorage.removeItem('studentId');
   window.location.href = 'home_page.html'; // Redirect to home page
+=======
+  // Handle actual logout logic here (e.g., clearing session)
+  localStorage.removeItem('studentId'); // Clear the student ID from local storage
+  window.location.href = 'login.html'; // Redirect to the login page
+>>>>>>> Stashed changes
 }
 
 // Load student profile and job listings on page load

@@ -5,25 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Micro Gig - Job Poster Dashboard</title>
     <link rel="stylesheet" href="jobPoster_dashboard.css">
+    <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
     <header>
         <h1>Micro Gig - Job Poster Dashboard</h1>
     </header>
 
-    <nav>
-        <a href="#">Home</a>
-        <a href="#">Profile</a>
-        <a href="#" id="postJobsLink">Post Jobs</a>
-        <a href="#">Payments</a>
-    </nav>
 
     <div class="container">
         <div class="dashboard">
             <div class="card">
+<<<<<<< Updated upstream
                 <h3>Home</h3>
                 <p>Overview of your posted jobs and updates.</p>
                 <a href="#" class="button">Go to Home</a>
+=======
+                <h3>Notifications</h3>
+                <p>Notify when a job is accepted</p>
+                <a href="#" class="button" id="notificationButton">Notifications</a>
+>>>>>>> Stashed changes
             </div>
             <div class="card">
                 <h3>Profile</h3>
@@ -35,17 +36,21 @@
                 <p>Create and list jobs for students to apply.</p>
                 <a href="#" class="button" id="postJobButton">Post a Job</a>
             </div>
-            <div class="card">
+        <!--   <div class="card">
                 <h3>Payments</h3>
                 <p>Manage in-app payments and transactions securely.</p>
                 <a href="#" class="button">Manage Payments</a>
             </div>
+<<<<<<< Updated upstream
             <div class="card">
                 <h3>View Posted Jobs</h3>
                 <p>View all jobs you have posted.</p>
                 <a href="jobposter_postedJobs.html" class="button" id="viewPostedJobsButton">View Posted Jobs</a>
             </div>
         </div>
+=======
+        </div> -->
+>>>>>>> Stashed changes
 
         <div class="job-form" id="jobForm">
             <label for="jobTitle">Title:</label>
@@ -64,6 +69,7 @@
             <!-- Posted jobs will be loaded here -->
         </div>
     </div>
+    <div id="notificationBox" class="notification-container"></div>
 
     <footer>
         <p>&copy; 2024 Micro Gig. All rights reserved.</p>

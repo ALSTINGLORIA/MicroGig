@@ -1,5 +1,6 @@
 /* General Styles */
 * {
+<<<<<<< Updated upstream
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -11,29 +12,64 @@ body {
   color: white;
   margin: 0;
   padding: 0;
+=======
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+>>>>>>> Stashed changes
 }
 
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to right, #141e30, #243b55);
+  color: white;
+  overflow-x: hidden;
+}
+
+/* Dashboard */
 .dashboard {
   padding: 20px;
+  text-align: center;
+  position: relative; /* Enables absolute positioning inside */
 }
 
+/* Headings */
 h1 {
   text-align: center;
   margin-bottom: 20px;
+<<<<<<< Updated upstream
   text-shadow: 3px 3px 15px rgba(0, 242, 254, 0.8);
 }
 
+=======
+  font-size: 2.5rem;
+  text-shadow: 3px 3px 15px rgba(0, 242, 254, 0.8);
+  animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Sidebar */
+>>>>>>> Stashed changes
 .sidebar {
   position: fixed;
   right: -400px;
   top: 0;
   width: 300px;
   height: 100%;
+<<<<<<< Updated upstream
   background: rgba(0, 0, 0, 0.8);
+=======
+  background: rgba(0, 0, 0, 0.9);
+>>>>>>> Stashed changes
   color: white;
-  transition: right 0.3s;
+  transition: right 0.3s ease-in-out;
   padding: 20px;
+<<<<<<< Updated upstream
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+=======
+  backdrop-filter: blur(10px);
+  box-shadow: -4px 0 10px rgba(0, 0, 0, 0.5);
+>>>>>>> Stashed changes
 }
 
 .sidebar-content {
@@ -41,48 +77,72 @@ h1 {
 }
 
 .sidebar h2 {
-  margin: 0;
-  padding: 10px 0;
   font-size: 24px;
+  margin-bottom: 10px;
+  color: #00f2fe;
+  text-align: center;
 }
 
 .sidebar p {
-  margin: 5px 0;
+  font-size: 1rem;
+  opacity: 0.8;
 }
 
+/* Job Listings */
 #job-listings {
+<<<<<<< Updated upstream
   background: rgba(0, 0, 0, 0.8);
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
+=======
+  background: rgba(51, 50, 50, 0.797);
+  border-radius: 12px;
+>>>>>>> Stashed changes
   padding: 20px;
-  margin-top: 20px;
+  margin-top: 70px;
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center;
 }
 
+/* Individual Job Card */
 .job {
+<<<<<<< Updated upstream
   background: rgba(255, 255, 255, 0.1);
   padding: 20px;
   margin: 10px 0;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 242, 254, 0.4);
+=======
+  background: rgba(39, 30, 100, 0.981);
+  padding: 20px;
+  border-radius: 12px;
+>>>>>>> Stashed changes
   width: 30%;
   min-width: 250px;
+  box-shadow: 0 4px 10px rgba(0, 242, 254, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .job h3 {
   margin: 0;
+  color: #00f2fe;
 }
 
 .job p {
   margin: 5px 0;
 }
 
+<<<<<<< Updated upstream
+=======
+/* Buttons */
+>>>>>>> Stashed changes
 button {
   background: linear-gradient(135deg, #007bff, #00f2fe);
   color: white;
   border: none;
+<<<<<<< Updated upstream
   padding: 12px 24px;
   border-radius: 8px;
   cursor: pointer;
@@ -91,30 +151,56 @@ button {
   font-weight: bold;
   box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
   text-transform: uppercase;
+=======
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
+>>>>>>> Stashed changes
 }
 
 button:hover {
   transform: translateY(-3px);
   box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
+<<<<<<< Updated upstream
 }
 
 button:active {
   transform: scale(0.95);
+=======
+>>>>>>> Stashed changes
 }
 
+/* Profile Button (Below Dashboard Title, Right Corner) */
 .profile-btn {
+<<<<<<< Updated upstream
   background: linear-gradient(135deg, #007bff, #00f2fe);
   color: white;
   padding: 12px 24px;
+=======
+  position: absolute;
+  top: 80px; /* Positioned below the dashboard title */
+  right: 20px;
+  background: linear-gradient(135deg, #007bff, #00f2fe);
+  color: white;
+  padding: 12px 20px;
+>>>>>>> Stashed changes
   border: none;
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
   font-weight: bold;
+<<<<<<< Updated upstream
   width: 150px;
   margin: 0 auto;
   display: block;
   text-transform: uppercase;
+=======
+  box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
+>>>>>>> Stashed changes
 }
 
 .profile-btn:hover {
@@ -122,12 +208,38 @@ button:active {
   box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
 }
 
+<<<<<<< Updated upstream
+=======
+/* Accepted Jobs Button (Same Style as Profile Button, Left Corner) */
+.accepted-jobs-btn {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  background: linear-gradient(135deg, #007bff, #00f2fe); /* Same as profile button */
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 8px rgba(0, 242, 254, 0.4);
+}
+
+.accepted-jobs-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(0, 242, 254, 0.8);
+}
+
+/* Disabled Button */
+>>>>>>> Stashed changes
 button:disabled {
   background-color: #ccc;
   color: #666;
   cursor: not-allowed;
 }
 
+<<<<<<< Updated upstream
 .filter-bar {
   position: fixed;
   right: 20px;
@@ -182,5 +294,38 @@ button:disabled {
   to {
       opacity: 1;
       transform: translateY(0);
+=======
+button:disabled:hover {
+  background-color: #ccc;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+
+  .job {
+    width: 90%;
+  }
+
+  .profile-btn,
+  .accepted-jobs-btn {
+    width: 140px;
+    font-size: 14px;
+    padding: 10px;
+    top: 100px; /* Adjusts for smaller screens */
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+>>>>>>> Stashed changes
   }
 }

@@ -311,6 +311,20 @@ app.get('/getJobs', async (req, res) => {
   }
 });
 */
+app.post('/remove-job-poster', async (req, res) => {
+  const { jobPosterId } = req.body;
+  try {
+      const result = await jobPoster.findByIdAndDelete(jobPosterId);
+      if (!result) {
+          return res.status(404).json({ message: 'Job poster not found' });
+      }
+      res.json({ message: 'Job poster removed successfully' });
+  } catch (error) {
+      console.error('Error removing job poster:', error);
+      res.status(500).json({ message: 'Error removing job poster' });
+  }
+});
+
 
 // we are using port 5000 
 const port = 5000;
