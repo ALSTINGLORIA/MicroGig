@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Completion</title>
+    <link rel="stylesheet" href="jobPoster_dashboard.css">
+    <script src="jobPoster_completion.js"></script>
+</head>
+<body>
+    <h1>Job Completion Details</h1>
+    <div class="job-details">
+        <h2>Job Information</h2>
+        <p><strong>Title:</strong> <span id="jobTitle"></span></p>
+        <p><strong>Description:</strong> <span id="jobDescription"></span></p>
+        <p><strong>Payment:</strong> <span id="jobPayment"></span></p>
+        <p><strong>Time:</strong> <span id="jobTime"></span></p>
+        <p><strong>Location:</strong> <span id="jobLocation"></span></p>
+        <p><strong>Day:</strong> <span id="jobDay"></span></p>
+    </div>
+    
+    <div class="student-details">
+        <h2>Student Information</h2>
+        <p><strong>Name:</strong> <span id="studentName"></span></p>
+        <p><strong>Email:</strong> <span id="studentEmail"></span></p>
+        <p><strong>Phone:</strong> <span id="studentPhone"></span></p>
+    </div>
+    
+    <div class="otp-section">
+        <button onclick="generateOTP()" class="otp-button">Generate OTP</button>
+        <div id="otpDisplay" class="otp-display"></div>
+    </div>
+
+</body>
+</html>

@@ -1,6 +1,55 @@
 // Handle profile button click
 const urlParams = new URLSearchParams(window.location.search);
 const jobPosterId = urlParams.get('jobPosterId');
+
+// Check for upcoming jobs on page load
+window.addEventListener('load', async () => {
+    try {
+        const response = await fetch(`http://localhost:5000/check-job-today-poster?jobPosterId=${jobPosterId}`);
+        const jobs = await response.json();
+        
+        if (jobs.length > 0) {
+            jobs.forEach(job => {
+                // Create popup container
+                const popup = document.createElement('div');
+                popup.className = 'job-popup';
+                
+                // Add close button
+                const closeBtn = document.createElement('span');
+                closeBtn.className = 'close-popup';
+                closeBtn.innerHTML = '&times;';
+                closeBtn.onclick = () => popup.remove();
+                popup.appendChild(closeBtn);
+                
+                // Add job details
+                const content = document.createElement('div');
+                content.innerHTML = `
+                    <h3>Upcoming Job</h3>
+                    <p><strong>Title:</strong> ${job.title}</p>
+                    <p><strong>Time:</strong> ${job.time}</p>
+                    <p><strong>Student:</strong> ${job.studentName}</p>
+                    <p><strong>Contact:</strong> ${job.phoneNo}</p>
+                    <button class="proceedBtn">Proceed</button>
+                `;
+                popup.appendChild(content);
+
+                // Add Proceed button
+                const proceedBtn = content.querySelector('.proceedBtn');
+                proceedBtn.onclick = () => {
+                    const jobId = job._id;
+                    window.location.href = `jobPoster_completion.html?jobId=${jobId}`;
+                };
+                
+                // Add to document
+                document.body.appendChild(popup);
+
+            });
+        }
+    } catch (error) {
+        console.error('Error checking for upcoming jobs:', error);
+    }
+});
+
 localStorage.setItem('jobPosterId', jobPosterId);
 document.getElementById('profileButton').addEventListener('click', function(event) {
     event.preventDefault();
@@ -23,7 +72,6 @@ document.getElementById('postJobButton').addEventListener('click', function(even
 document.getElementById('uploadJob').addEventListener('click', async function(event) {
     event.preventDefault();
     
-
     const jobTitle = document.getElementById('jobTitle').value;
     const jobDescription = document.getElementById('jobDescription').value;
     const payment = document.getElementById('payment').value;

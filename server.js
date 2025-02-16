@@ -1,22 +1,24 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const path = require('path');  // for getting file paths
-const bcrypt = require('bcrypt'); //for encryption
+const path = require('path');  
+const bcrypt = require('bcrypt');
+const crypto = require('crypto'); 
+
 
 const app = express();
 app.use(express.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public'))); // for getting html,css,js files
+app.use(express.static(path.join(__dirname, 'public'))); 
 
-// for loading first homepage when opening local host
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, 'public/home_page.html'));
 });
 
 mongoose.connect('mongodb+srv://alstingloria:0chacko0@cluster0.bbfhx.mongodb.net/', {});
 
-// mongoose schema for student details
+
 const studentSchema = new mongoose.Schema({
     name: String,
     email: String,
@@ -30,7 +32,7 @@ const studentSchema = new mongoose.Schema({
 
 const student = mongoose.model('Student', studentSchema);
 
-// signup student post request
+
 app.post('/signupStudent', async (req, res) => {
     const studentData = new student(req.body);
     studentData.password = await bcrypt.hash(studentData.password, 10);
@@ -44,7 +46,7 @@ app.post('/signupStudent', async (req, res) => {
     }
 });
 
-//job poster mongoose schema
+
 const jobPosterSchema = new mongoose.Schema({
     name: String,
     email: String,
@@ -56,7 +58,7 @@ const jobPosterSchema = new mongoose.Schema({
 
 const jobPoster = mongoose.model('JobPoster', jobPosterSchema);
 
-// signup jon poster post request
+
 app.post('/signupJobPoster', async (req, res) => {
     const jobPosterData = new jobPoster(req.body);
     jobPosterData.password = await bcrypt.hash(jobPosterData.password, 10);
@@ -69,7 +71,7 @@ app.post('/signupJobPoster', async (req, res) => {
     }
 });
 
-// login post request
+
 app.post('/login', async (req, res) => {
     const { username, password, role } = req.body;
     let user;
@@ -88,7 +90,7 @@ app.post('/login', async (req, res) => {
         if (match) {
             if (role == 'student'){
               response = { message: 'Login successful', userid: user._id };
-              res.redirect(`/student_dashboard.html?studentId=${user._id}`); // redirect and find the user using the url parms method
+              res.redirect(`/student_dashboard.html?studentId=${user._id}`); 
             }
             else if (role == 'job_poster'){
               response = { message: 'Login successful', userid: user._id };
@@ -104,7 +106,7 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// loading the student profile
+
 app.get(`/student-profile`, async (req, res) => {
     const studentID = req.query.studentId;  
     try {
@@ -120,7 +122,7 @@ app.get(`/student-profile`, async (req, res) => {
     }
 });
 
-// this is for loading the profile of jobPoster when clicking jobPoster profile button
+
 app.get('/job-poster-profile', async (req, res) => {
   const jobPosterId = req.query.jobPosterId;  
   try {
@@ -135,7 +137,7 @@ app.get('/job-poster-profile', async (req, res) => {
   }
 });
 
-// this is for when clicking the job details cards we go to a new page showing the decription of that job
+
 app.get('/job-details', async (req, res) => {
   const jobId = req.query.jobId;  
   try {
@@ -199,25 +201,7 @@ app.get('/student-accepted-jobs', async (req, res) => {
 });
 
 
-//adithya code from here
 
-// student details schema is made here but we need to first check how we are going to make the db tables not in current usage so leaving it as comments
-/* const studentSchema2 = new mongoose.Schema({
-  studentId: { type: Number},
-  name: String,
-  email: String,
-  phoneNo: String,
-  age: Number,
-  dob: Date,
-  aadharNo: String,
-  username: String,
-  password: String,
-  earnings: Number,
-  previousActivities: [String],
-}, { collection: 'studentDetails' }); 
-*/
-
-// schema for the job table
 const jobSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -232,40 +216,12 @@ const jobSchema = new mongoose.Schema({
 
 
 
-// the below line is the model for studentDetails table which is not currently in use will later decide what to do with it
-// const Student1 = mongoose.model('Student1', studentSchema2);
-
 const Job = mongoose.model('Job', jobSchema);
 
-/* the below post request is handled above, so this is commented if required later will use if needed
 
-app.get("/student-profile", async (req, res) => {
-  const studentId = req.query._id;  
-  console.log("Received ID:", studentId);
 
-  try {
 
-    if (!mongoose.Types.ObjectId.isValid(studentId)) {
-      return res.status(400).json({ message: "Invalid student ID" });
-    }
 
-    const student = await Student1.findById(mongoose.Types.ObjectId(studentId));
-    
-    console.log("Found student:", student);  
-
-    if (!student) {
-      return res.status(404).json({ message: "Student not found" });
-    }
-
-    res.json(student);
-  } catch (err) {
-    console.error("Error fetching student:", err.message);
-    res.status(500).json({ message: "Server error", error: err.message });
-  }
-});
-*/
-
-//post request for getting job listed
 app.get("/job-listings", async (req, res) => {
   try {
     const jobs = await Job.find();
@@ -275,7 +231,7 @@ app.get("/job-listings", async (req, res) => {
   }
 });
 
-// updating the job status to db using patch
+
 app.patch('/update-job-status', async (req, res) => {
   try {
     const { jobId,studentId, status } = req.body;
@@ -286,12 +242,12 @@ app.patch('/update-job-status', async (req, res) => {
       studentId: studentId,
       jobPosterId: jobData.jobPosterId,
       jobId: jobId,   
-      title: jobData.title, // Job title
-      description: jobData.description, // Job description
-      location: jobData.location, // Job location
-      payment: jobData.payment, // Payment amount
-      time: jobData.time, // Job time
-      day: jobData.day, // Job day
+      title: jobData.title, 
+      description: jobData.description,
+      location: jobData.location,
+      payment: jobData.payment,
+      time: jobData.time,
+      day: jobData.day, 
       studentName: data.name,
       email: data.email,
       phoneNo: data.phoneNo
@@ -308,11 +264,9 @@ app.patch('/update-job-status', async (req, res) => {
 
 
 
-// advaitha code
 
-// Route to insert job data
 app.post('/addData', async (req, res) => {
-  const { name, value } = req.body; // 'name' is the job title, 'value' contains description, payment, time, and day
+  const { name, value } = req.body; 
   if (!name || !value || !value.description || !value.payment || !value.time || !value.day || !value.location) {
 
       return res.status(400).send({ error: 'Missing required fields' });
@@ -320,14 +274,14 @@ app.post('/addData', async (req, res) => {
 
   try {
       const timeValue = `${value.time} ${value.jobAmPm}`;
-      const result = await Job.create({    // i changed the collection in your code to Job since it is the variable name i have used above for this collection model
-          title: name, // Job title
-          description: value.description, // Job description
-          payment: value.payment, // Payment amount
-          status: "waiting",  // i added the status while inserting as well to show it for the student
-          time: timeValue, // Job time
-          day: value.day, // Job day
-          location: value.location, // Job location
+      const result = await Job.create({    
+          title: name,
+          description: value.description,
+          payment: value.payment, 
+          status: "waiting", 
+          time: timeValue, 
+          day: value.day, 
+          location: value.location, 
           jobPosterId: value.jobPosterId,
           studentId: "",
       });
@@ -339,23 +293,10 @@ app.post('/addData', async (req, res) => {
 });
 
 
-/* the code below is not being used anywhere as of now i was not sure what is was for but i guess we can discuss later 
-app.get('/getJobs', async (req, res) => {
-  try {
-      const jobs = await collection.find().toArray();
-      res.status(200).json(jobs);
-  } catch (err) {
-      console.error('Fetch Error:', err);
-      res.status(500).send({ error: 'Failed to fetch jobs' });
-  }
-});
-*/
-
-// Cancel job endpoint
 app.post('/canceljob', async (req, res) => {
     const { jobId } = req.body;
     try {
-        // Update the job status in the jobs collection
+ 
         const job = await Job.findByIdAndUpdate(jobId, 
             { status: 'waiting', studentId: "" }, 
             { new: true }
@@ -365,7 +306,6 @@ app.post('/canceljob', async (req, res) => {
             return res.status(404).json({ message: 'Job not found' });
         }
 
-        // Delete the corresponding entry from acceptedjobs collection
         await acceptedJob.deleteOne({ jobId: jobId });
         
         res.json({ message: 'Job cancelled successfully', job });
@@ -376,7 +316,157 @@ app.post('/canceljob', async (req, res) => {
 });
 
 
-// we are using port 5000 
+app.get('/check-job-today-poster', async (req, res) => {
+    const { jobPosterId } = req.query;
+    
+    try {
+        const today = new Date().toISOString().split('T')[0];
+        console.log(today);
+        const currentHour = new Date().getHours();
+        console.log(currentHour);
+        
+        const jobs = await acceptedJob.find({ 
+            jobPosterId: jobPosterId,
+            day: today
+        });
+        console.log(jobs);
+
+        const upcomingJobs = jobs.filter(job => {
+          if((job.time.split(':')[1].slice(-2)) == "PM"){
+            const jobHour = parseInt(job.time.split(':')[0]) + 14;
+            console.log(job.time.split(':')[0]);
+            return Math.abs(jobHour - currentHour) <= 1;
+          }
+          else if ((job.time.split(':')[1].slice(-2)) == "AM"){
+            const jobHour = parseInt(job.time.split(':')[0]) - 1;
+            return Math.abs(jobHour - currentHour) <= 1;
+          }
+        });
+        console.log(upcomingJobs);
+        res.json(upcomingJobs);
+    } catch (error) {
+        console.error('Error checking jobs:', error);
+        res.status(500).json({ message: 'Error checking jobs' });
+    }
+});
+
+app.get('/check-job-today-student', async (req, res) => {
+  const { studentId } = req.query;
+  
+  try {
+      const today = new Date().toISOString().split('T')[0];
+      console.log(today);
+
+      const currentHour = new Date().getHours();
+      console.log(currentHour);
+
+      const jobs = await acceptedJob.find({ 
+          studentId: studentId,
+          day: today
+      });
+
+      const upcomingJobs = jobs.filter(job => {
+        if((job.time.split(':')[1].slice(-2)) == "PM"){
+          const jobHour = parseInt(job.time.split(':')[0]) + 14;
+          console.log(job.time.split(':')[0]);
+          return Math.abs(jobHour - currentHour) <= 1;
+        }
+        else if ((job.time.split(':')[1].slice(-2)) == "AM"){
+          const jobHour = parseInt(job.time.split(':')[0]) - 1;
+          return Math.abs(jobHour - currentHour) <= 1;
+        }
+      });
+      res.json(upcomingJobs);
+  } catch (error) {
+      console.error('Error checking jobs:', error);
+      res.status(500).json({ message: 'Error checking jobs' });
+  }
+});
+
+app.get('/jobPoster-completion', async (req, res) => {
+  const jobId  = req.query.jobId;
+  
+  try {
+      const JobInfo = await acceptedJob.findOne({ 
+          _id: jobId
+      });
+      
+      res.json(JobInfo);
+  } catch (error) {
+      console.error('Error checking jobs:', error);
+      res.status(500).json({ message: 'Error checking jobs' });
+  }
+});
+
+app.get('/student-completion', async (req, res) => {
+  const jobId  = req.query.jobId;
+  
+  try {
+      const JobInfo = await acceptedJob.findOne({ 
+          _id: jobId
+      });
+      
+      res.json(JobInfo);
+  } catch (error) {
+      console.error('Error checking jobs:', error);
+      res.status(500).json({ message: 'Error checking jobs' });
+  }
+});
+
+const otpSchema = new mongoose.Schema({
+  otp: Number,
+  jobId: String,
+  completion: String
+}, { collection: 'otp' });
+
+
+const Otp = mongoose.model('Otp', otpSchema);
+
+
+app.post('/jobPoster-otp', async (req, res) => {
+  const jobId  = req.query.jobId;
+    try {
+        const otpNumber = crypto.randomInt(100000, 999999);
+        const otpData =  new Otp({
+          otp: otpNumber,
+          jobId: jobId,
+          completion: "pending"
+        });
+        await otpData.save();
+        res.json({otpNumber});
+    } catch (error) {
+        console.error('Error generating OTP:', error);
+        res.status(500).json({ message: 'Error generating OTP' });
+    }
+});
+
+
+app.post('/verify-otp', async (req, res) => {
+    const { otp, jobId } = req.body;
+    
+    try {
+        const otpRecord = await Otp.findOne({ jobId });
+        
+        if (!otpRecord) {
+            return res.status(404).json({ message: 'No OTP found for this job' });
+        }
+
+        if (otpRecord.otp === parseInt(otp)) {
+          await Otp.findOneAndUpdate({ jobId }, 
+            { completion: 'completed' }, 
+            { new: true }
+          );
+            res.json({ message: 'OTP verification successful' });
+        } else {
+            res.status(400).json({ message: 'Invalid OTP' });
+        }
+    } catch (error) {
+        console.error('Error verifying OTP:', error);
+        res.status(500).json({ message: 'Error verifying OTP' });
+    }
+});
+
+
 const port = 5000;
 
 app.listen(port, () => {

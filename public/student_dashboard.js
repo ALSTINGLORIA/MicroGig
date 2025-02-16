@@ -7,6 +7,49 @@ function toggleSidebar() {
   sidebar.style.right = right;
 }
 
+window.addEventListener('load', async () => {
+  try {
+      const response = await fetch(`http://localhost:5000/check-job-today-student?studentId=${studentId}`);
+      const jobs = await response.json();
+      
+      if (jobs.length > 0) {
+        jobs.forEach(job => {
+          // Create popup container
+          const popup = document.createElement('div');
+          popup.className = 'job-popup';
+          
+          // Add close button
+          const closeBtn = document.createElement('span');
+          closeBtn.className = 'close-popup';
+          closeBtn.innerHTML = '&times;';
+          closeBtn.onclick = () => popup.remove();
+          popup.appendChild(closeBtn);
+          
+          // Add job details
+          const content = document.createElement('div');
+          content.innerHTML = `
+              <h3>Upcoming Job</h3>
+              <p><strong>Title:</strong> ${job.title}</p>
+              <p><strong>Time:</strong> ${job.time}</p>
+              <p><strong>Location:</strong> ${job.location}</p>
+              <p><strong>date:</strong> ${job.day}</p>
+              <button class="proceedBtn">Proceed</button>
+          `;
+          popup.appendChild(content);
+          
+          const proceedBtn = content.querySelector('.proceedBtn');
+                proceedBtn.onclick = () => {
+                    const jobId = job._id;
+                    window.location.href = `student_completion.html?jobId=${jobId}`;
+          };
+          // Add to document
+          document.body.appendChild(popup);
+      });
+      }
+  } catch (error) {
+      console.error('Error checking for upcoming jobs:', error);
+  }
+});
 
 async function loadProfile() {
   // const studentId = localStorage.getItem('studentId'); 

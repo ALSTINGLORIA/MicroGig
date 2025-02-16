@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Completion</title>
+    <link rel="stylesheet" href="student_dashboard.css">
+    <script src="student_completion.js"></script>
+</head>
+<body>
+    <h1>Job Completion Details</h1>
+    <div class="job-details">
+        <h2>Job Information</h2>
+        <p><strong>Title:</strong> <span id="jobTitle"></span></p>
+        <p><strong>Description:</strong> <span id="jobDescription"></span></p>
+        <p><strong>Payment:</strong> <span id="jobPayment"></span></p>
+        <p><strong>Time:</strong> <span id="jobTime"></span></p>
+        <p><strong>Location:</strong> <span id="jobLocation"></span></p>
+        <p><strong>Day:</strong> <span id="jobDay"></span></p>
+    </div>
+    
+    <div class="otp-section">
+        <label for="otpInput">Enter OTP:</label>
+        <input type="text" id="otpInput" maxlength="6" placeholder="6-digit OTP">
+        <button onclick="verifyOTP()">Verify OTP</button>
+        <div id="otpMessage"></div>
+    </div>
+
+            
+</body>
+</html>
