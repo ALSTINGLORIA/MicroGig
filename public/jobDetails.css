@@ -1,44 +1,210 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+/* Reset and base styles */
+* {
     margin: 0;
-    padding: 20px;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.job-details {
-    max-width: 600px;
-    margin: 0 auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-    font-size: 24px;
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #f5f5f5;
     color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
-h2 {
-    font-size: 20px;
-    color: #555;
+/* Job details container */
+.job-details {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    width: 100%;
+    max-width: 800px;
+    margin: 20px;
 }
 
-p {
-    font-size: 16px;
-    color: #666;
+/* Header styles */
+h1 {
+    color: #2c3e50;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #eee;
+    text-align: center;
 }
 
+/* Job information container */
+#jobInfo {
+    margin: 25px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+/* Job title */
+#jobInfo h2 {
+    color: #1a73e8;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* Job details paragraphs */
+#jobInfo p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+    color: #495057;
+    padding: 8px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+#jobInfo p:last-child {
+    border-bottom: none;
+}
+
+#jobInfo strong {
+    color: #2c3e50;
+    font-weight: 600;
+    min-width: 120px;
+    display: inline-block;
+}
+
+/* Button container */
+.job-details {
+    position: relative;
+}
+
+/* Button styles */
 button {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border: none;
+    margin: 10px 0;
 }
 
-button:hover {
-    background-color: #0056b3;
+/* Back button */
+button[onclick="goBack()"] {
+    background-color: #6c757d;
+    color: white;
+    float: left;
+}
+
+button[onclick="goBack()"]:hover {
+    background-color: #5a6268;
+}
+
+/* Accept button */
+#acceptButton {
+    background-color: #28a745;
+    color: white;
+    float: right;
+}
+
+#acceptButton:hover {
+    background-color: #218838;
+    transform: translateY(-1px);
+}
+
+/* Error message styles */
+.error-message {
+    color: #dc3545;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    padding: 15px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    .job-details {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+    }
+
+    #jobInfo h2 {
+        font-size: 1.5rem;
+    }
+
+    #jobInfo p {
+        font-size: 1rem;
+    }
+
+    button {
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    button[onclick="goBack()"],
+    #acceptButton {
+        float: none;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #fff;
+    }
+
+    .job-details {
+        background-color: #2d2d2d;
+    }
+
+    h1 {
+        color: #fff;
+        border-bottom-color: #444;
+    }
+
+    #jobInfo {
+        background-color: #333;
+        border-color: #444;
+    }
+
+    #jobInfo h2 {
+        color: #66b3ff;
+    }
+
+    #jobInfo p {
+        color: #ddd;
+        border-bottom-color: #444;
+    }
+
+    #jobInfo strong {
+        color: #fff;
+    }
+
+    button[onclick="goBack()"] {
+        background-color: #495057;
+    }
+
+    button[onclick="goBack()"]:hover {
+        background-color: #3d4246;
+    }
+
+    .error-message {
+        background-color: #442326;
+        border-color: #dc3545;
+        color: #ff6b6b;
+    }
 }

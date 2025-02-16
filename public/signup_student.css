@@ -1,103 +1,148 @@
+/* Reset default styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
-    color: white;
+    background: linear-gradient(135deg, #f3f4f6 0%, #ffffff 100%);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    overflow: hidden; 
-}
-
-#signup-form {
-    text-align: center;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    width: 90%;
-    max-width: 500px;
-    max-height: 90vh; 
-    overflow-y: auto; 
-}
-
-h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #ff4081; 
+    padding: 2rem;
 }
 
 .form-section {
-    margin-top: 20px;
+    width: 100%;
+    max-width: 480px;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    padding: 2rem;
+}
+
+.form h2 {
+    color: #1f2937;
+    font-size: 1.875rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form label {
+    display: block;
+    color: #4b5563;
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: #1f2937;
+    transition: all 0.2s ease;
+}
+
+/* Specific styles for different input types */
+.form input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+.form input[type="number"]::-webkit-outer-spin-button,
+.form input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.form input[type="date"] {
+    font-family: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form input:hover {
+    border-color: #9ca3af;
+}
+
+.form button {
+    width: 100%;
+    padding: 0.875rem;
+    background-color: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.form button:hover {
+    background-color: #4338ca;
+}
+
+.form button:active {
+    transform: scale(0.98);
+}
+
+/* Error states */
+.form input:invalid {
+    border-color: #ef4444;
+}
+
+.form input:invalid:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+}
+
+/* Remove .hidden class styling */
+.form.hidden {
+    display: block;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+    .form-section {
+        padding: 1.5rem;
+    }
+
+    .form h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form input {
+        padding: 0.625rem 0.875rem;
+        margin-bottom: 1.25rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .form {
-    margin-top: 20px;
-    background-color: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-label {
-    display: block;
-    margin: 10px 0 5px;
-    font-weight: bold;
-    color: #f0f0f0; 
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-}
-
-input::placeholder {
-    color: #ccc;
-}
-
-input:focus {
-    border-color: #ff4081;
-    outline: none;
-}
-
-button[type="submit"] {
-    background-color: #ff4081; 
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 15px 30px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #e91e63; 
-}
-
-button[type="submit"]:active {
-    transform: scale(0.95); 
-}
-
-
-@media (max-width: 600px) {
-    h2 {
-        font-size: 2rem;
-    }
-
-    button[type="submit"] {
-        font-size: 1rem;
-        padding: 10px 20px;
-    }
+    animation: fadeIn 0.5s ease-out;
 }

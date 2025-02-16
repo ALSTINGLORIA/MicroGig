@@ -333,7 +333,7 @@ app.get('/check-job-today-poster', async (req, res) => {
 
         const upcomingJobs = jobs.filter(job => {
           if((job.time.split(':')[1].slice(-2)) == "PM"){
-            const jobHour = parseInt(job.time.split(':')[0]) + 14;
+            const jobHour = parseInt(job.time.split(':')[0]) - 9;
             console.log(job.time.split(':')[0]);
             return Math.abs(jobHour - currentHour) <= 1;
           }
@@ -367,7 +367,7 @@ app.get('/check-job-today-student', async (req, res) => {
 
       const upcomingJobs = jobs.filter(job => {
         if((job.time.split(':')[1].slice(-2)) == "PM"){
-          const jobHour = parseInt(job.time.split(':')[0]) + 14;
+          const jobHour = parseInt(job.time.split(':')[0]) - 9;
           console.log(job.time.split(':')[0]);
           return Math.abs(jobHour - currentHour) <= 1;
         }
