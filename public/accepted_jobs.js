@@ -17,6 +17,7 @@ async function loadAcceptedJobs() {
                 <p>${job.location}</p>
                 <p>${job.payment}</p>
                 <p>${job.time}</p>
+                <p>${job.duration}</p>
                 <p>${job.day}</p>
                 <p>Accepted by: ${job.studentName}</p>
                 <p>${job.email}</p>
@@ -27,7 +28,7 @@ async function loadAcceptedJobs() {
         });
     } catch (error) {
         console.error('Error fetching accepted jobs:', error);
-        alert("Failed to load accepted jobs.");
+        alert("No Jobs have been accepted yet.");
     }
 }
 

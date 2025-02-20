@@ -308,6 +308,20 @@ footer {
     }
 }
 
+nav button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+nav button:hover {
+    background-color: var(--secondary-color);
+}
+
 @media (max-width: 480px) {
     .dashboard {
         grid-template-columns: 1fr;

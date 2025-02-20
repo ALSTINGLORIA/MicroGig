@@ -26,10 +26,14 @@
         <p><strong>Phone:</strong> <span id="studentPhone"></span></p>
     </div>
     
+
     <div class="otp-section">
-        <button onclick="generateOTP()" class="otp-button">Generate OTP</button>
-        <div id="otpDisplay" class="otp-display"></div>
+        <label for="otpInput">Enter OTP:</label>
+        <input type="text" id="otpInput" maxlength="6" placeholder="6-digit OTP">
+        <button onclick="verifyOTP()">Verify OTP</button>
+        <div id="otpMessage"></div>
     </div>
+
 
 </body>
 </html>

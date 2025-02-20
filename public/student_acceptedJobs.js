@@ -20,13 +20,13 @@ async function loadAcceptedJobs() {
                 <p>Location: ${job.location}</p>
                 <p>Time: ${job.time}</p>
                 <p>Status: ${job.status}</p>
+                <p>Duration: ${job.duration}</p>
                 <button onclick="cancelJob('${job._id}')">Cancel Job</button>
 
             </div>
         `).join('');
     } catch (error) {
         console.error('Error loading accepted jobs:', error);
-        document.getElementById('accepted-jobs-list').innerHTML = '<p>Error loading accepted jobs. Please try again later.</p>';
     }
 }
 

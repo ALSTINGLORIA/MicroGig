@@ -1,3 +1,6 @@
+const urlParams = new URLSearchParams(window.location.search);
+const jobId = urlParams.get('jobId');
+
 // Get job details on page load
 window.addEventListener('load', async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -26,37 +29,35 @@ window.addEventListener('load', async () => {
     }
 });
 
-// Verify OTP function
-async function verifyOTP() {
-    const otp = document.getElementById('otpInput').value;
-    const jobId = new URLSearchParams(window.location.search).get('jobId');
-    
-    if (!otp || otp.length !== 6) {
-        document.getElementById('otpMessage').textContent = 'Please enter a valid 6-digit OTP';
-        return;
-    }
-
+async function generateOTP() {
     try {
-        const response = await fetch(`http://localhost:5000/verify-otp?jobId=${jobId}`, {
+        const response = await fetch(`http://localhost:5000/jobPoster-otp?jobId=${jobId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ otp, jobId })
+            }
         });
-
         const result = await response.json();
-        
         if (response.ok) {
-            document.getElementById('otpMessage').textContent = result.message;
-            document.getElementById('otpMessage').style.color = 'green';
+            document.getElementById('otpDisplay').textContent = `OTP: ${result.otpNumber}`;
+            document.getElementById('generateOtpButton').disabled = true;
+            document.getElementById('resendOtpButton').style.display = 'inline-block';
         } else {
-            document.getElementById('otpMessage').textContent = result.message || 'OTP verification failed';
-            document.getElementById('otpMessage').style.color = 'red';
+            alert('Failed to generate OTP');
         }
     } catch (error) {
-        console.error('Error verifying OTP:', error);
-        document.getElementById('otpMessage').textContent = 'An error occurred while verifying OTP';
-        document.getElementById('otpMessage').style.color = 'red';
+        console.error('Error generating OTP:', error);
+        alert('Error generating OTP');
     }
 }
+
+async function resendOTP() {
+    await generateOTP();
+}
+
+
+// Add event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('generateOtpButton').addEventListener('click', generateOTP);
+    document.getElementById('resendOtpButton').addEventListener('click', resendOTP);
+});

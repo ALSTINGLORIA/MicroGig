@@ -14,7 +14,6 @@ async function loadJobDetails() {
             throw new Error("Failed to fetch job details.");
         }
         const job = await response.json();
-        console.log('Job details:', job);
 
         document.getElementById('jobInfo').innerHTML = `
             <h2>${job.title}</h2>
@@ -24,6 +23,7 @@ async function loadJobDetails() {
             <p><strong>Status:</strong> ${job.status}</p>
             <p><strong>Time:</strong> ${job.time}</p>
             <p><strong>Day:</strong> ${job.day}</p>
+            <p><strong>Duration:</strong> ${job.duration}</p>
         `;
     } catch (error) {
         console.error('Error fetching job details:', error);
@@ -46,9 +46,13 @@ function acceptJob(jobId) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log('Job accepted:', data);
+        if (data.message === 'Already accepted job at this time') {
+            alert(data.message);
+        } 
+        else {
         alert('Job accepted successfully!');
         loadJobDetails();  // Refresh job listings after accepting the job
+        }
     })
     .catch(error => console.error('Error accepting job:', error));
 }

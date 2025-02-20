@@ -16,6 +16,7 @@
         <a href="#">Profile</a>
         <a href="#" id="postJobsLink">Post Jobs</a>
         <a href="#">Payments</a>
+        <button id="signOutButton">Sign Out</button>
     </nav>
 
     <div class="container">
@@ -23,7 +24,7 @@
             <div class="card">
                 <h3>Notifications</h3>
                 <p>Notify when a job is accepted</p>
-                <a href="#" class="button" id="notificationButton">Go to Home</a>
+                <a href="#" class="button" id="notificationButton">Notifications</a>
             </div>
             <div class="card">
                 <h3>Profile</h3>
@@ -41,11 +42,11 @@
                 <p>Manage in-app payments and transactions securely.</p>
                 <a href="#" class="button">Manage Payments</a>
             </div>
-            <div class="card">
+            <!--<div class="card">
                 <h3>Jobs Today</h3>
                 <p>View and confirm jobs being performed today.</p>
                 <a href="#" class="button" id="jobsTodayButton">Jobs Today</a>
-            </div>
+            </div>-->
         </div>
 
 
@@ -69,11 +70,15 @@
             <label for="jobDay">Day:</label>
             <input type="date" id="jobDay" placeholder="Enter job day">
 
+            <label for="jobDuration">Duration</label>
+            <input type="text" id="jobDuration" placeholder="Enter job Duration (HH:MM)">
+            <span id="durationError"></span>
+
             <label for="jobLocation">Location:</label>
             <input type="text" id="jobLocation" placeholder="Enter job location">
 
             <button id="uploadJob">Upload</button>
-
+            <button id="goback">Go Back</button>
         </div>
     </div>
 

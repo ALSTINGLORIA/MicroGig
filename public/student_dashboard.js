@@ -139,10 +139,11 @@ function toggleSidebar() {
   }
 }
 
-// Logout function (simulated)
+
 function logout() {
   alert("You have been logged out!");
-  // Handle actual logout logic here (e.g., clearing session)
+  localStorage.removeItem('studentId');
+  window.location.href = 'home_page.html';
 }
 
 // Load student profile and job listings on page load

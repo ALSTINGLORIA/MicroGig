@@ -27,7 +27,8 @@ const studentSchema = new mongoose.Schema({
     dob: Date,
     aadharNo: String,
     username: String,
-    password: String
+    password: String,
+    cancelled: Number
 });
 
 const student = mongoose.model('Student', studentSchema);
@@ -37,6 +38,7 @@ app.post('/signupStudent', async (req, res) => {
     const studentData = new student(req.body);
     studentData.password = await bcrypt.hash(studentData.password, 10);
     studentData.aadharNo = await bcrypt.hash(studentData.aadharNo, 10);
+    studentData.cancelled = 0;
     try {
         await studentData.save();
         res.redirect('/home_page.html?message=success');
@@ -53,7 +55,8 @@ const jobPosterSchema = new mongoose.Schema({
     phoneNo: String,
     address: String,
     username: String,
-    password: String
+    password: String,
+    report: Number
 });
 
 const jobPoster = mongoose.model('JobPoster', jobPosterSchema);
@@ -62,6 +65,7 @@ const jobPoster = mongoose.model('JobPoster', jobPosterSchema);
 app.post('/signupJobPoster', async (req, res) => {
     const jobPosterData = new jobPoster(req.body);
     jobPosterData.password = await bcrypt.hash(jobPosterData.password, 10);
+    jobPosterData.report = 0;
     try {
         await jobPosterData.save();
         res.redirect('/home_page.html?message=success');
@@ -165,7 +169,8 @@ const acceptedJobSchema = new mongoose.Schema({
   payment: Number,
   status: String,
   time: String,
-  day: String
+  day: String,
+  duration: String
 });
 
 const acceptedJob = mongoose.model('acceptedjobs', acceptedJobSchema);
@@ -210,8 +215,9 @@ const jobSchema = new mongoose.Schema({
   status: String,
   time: String,
   day: String,
+  duration: String,
   jobPosterId: String,
-  studentId: String,
+  studentId: String
 }, { collection: 'job' });
 
 
@@ -235,28 +241,37 @@ app.get("/job-listings", async (req, res) => {
 app.patch('/update-job-status', async (req, res) => {
   try {
     const { jobId,studentId, status } = req.body;
-    const job = await Job.findByIdAndUpdate(jobId, { status,studentId }, { new: true });
     const jobData = await Job.findOne({ _id: jobId }); 
     const data = await student.findOne({ _id: studentId }); 
-    const result = await acceptedJob.create({
-      studentId: studentId,
-      jobPosterId: jobData.jobPosterId,
-      jobId: jobId,   
-      title: jobData.title, 
-      description: jobData.description,
-      location: jobData.location,
-      payment: jobData.payment,
-      time: jobData.time,
-      day: jobData.day, 
-      studentName: data.name,
-      email: data.email,
-      phoneNo: data.phoneNo
 
-  });
-    if (!job) {
-      return res.status(404).json({ message: 'Job not found' });
+    const matchingJobs = await acceptedJob.find({ 
+      studentId: studentId,
+    });
+
+    const conflict = matchingJobs.some((jobers) => {
+      return jobers.day === jobData.day && jobers.time === jobData.time;
+    });
+    if (conflict) {
+      res.json({ message: 'Already accepted job at this time' });
+    } else {
+      const result = await acceptedJob.create({
+        studentId: studentId,
+        jobPosterId: jobData.jobPosterId,
+        jobId: jobId,
+        title: jobData.title,
+        description: jobData.description,
+        location: jobData.location,
+        payment: jobData.payment,
+        time: jobData.time,
+        day: jobData.day,
+        studentName: data.name,
+        email: data.email,
+        phoneNo: data.phoneNo,
+        duration: jobData.duration
+      });
+      const job = await Job.findByIdAndUpdate(jobId, { status, studentId }, { new: true });
+      res.json(job); 
     }
-    res.json(job);
   } catch (error) {
     res.status(500).json({ message: 'Error updating job status', error });
   }
@@ -283,6 +298,7 @@ app.post('/addData', async (req, res) => {
           day: value.day, 
           location: value.location, 
           jobPosterId: value.jobPosterId,
+          duration: value.jobDuration,
           studentId: "",
       });
       res.status(200).send({ message: 'Job uploaded successfully!', id: result.insertedId });
@@ -333,12 +349,12 @@ app.get('/check-job-today-poster', async (req, res) => {
 
         const upcomingJobs = jobs.filter(job => {
           if((job.time.split(':')[1].slice(-2)) == "PM"){
-            const jobHour = parseInt(job.time.split(':')[0]) - 9;
+            const jobHour = parseInt(job.time.split(':')[0]) +11 ;
             console.log(job.time.split(':')[0]);
             return Math.abs(jobHour - currentHour) <= 1;
           }
           else if ((job.time.split(':')[1].slice(-2)) == "AM"){
-            const jobHour = parseInt(job.time.split(':')[0]) - 1;
+            const jobHour = parseInt(job.time.split(':')[0]) ;
             return Math.abs(jobHour - currentHour) <= 1;
           }
         });
@@ -367,12 +383,12 @@ app.get('/check-job-today-student', async (req, res) => {
 
       const upcomingJobs = jobs.filter(job => {
         if((job.time.split(':')[1].slice(-2)) == "PM"){
-          const jobHour = parseInt(job.time.split(':')[0]) - 9;
+          const jobHour = parseInt(job.time.split(':')[0]) + 12;
           console.log(job.time.split(':')[0]);
           return Math.abs(jobHour - currentHour) <= 1;
         }
         else if ((job.time.split(':')[1].slice(-2)) == "AM"){
-          const jobHour = parseInt(job.time.split(':')[0]) - 1;
+          const jobHour = parseInt(job.time.split(':')[0]);
           return Math.abs(jobHour - currentHour) <= 1;
         }
       });
@@ -426,14 +442,30 @@ const Otp = mongoose.model('Otp', otpSchema);
 app.post('/jobPoster-otp', async (req, res) => {
   const jobId  = req.query.jobId;
     try {
-        const otpNumber = crypto.randomInt(100000, 999999);
-        const otpData =  new Otp({
-          otp: otpNumber,
-          jobId: jobId,
-          completion: "pending"
-        });
-        await otpData.save();
-        res.json({otpNumber});
+
+        const otpRecord = await Otp.findOne({ jobId });
+        
+        if (!otpRecord) {
+          const otpNumber = crypto.randomInt(100000, 999999);
+          const otpData =  new Otp({
+            otp: otpNumber,
+            jobId: jobId,
+            completion: "pending"
+          });
+          await otpData.save();
+          res.json({otpNumber});
+        }
+        else if(otpRecord){
+          const otpNumber = crypto.randomInt(100000, 999999);
+          await Otp.findOneAndUpdate({ jobId },
+            { otp:otpNumber}, 
+            { new: true }
+          );
+          res.json({otpNumber});
+        } else {
+            res.status(400).json({ message: 'Invalid OTP' });
+        }
+
     } catch (error) {
         console.error('Error generating OTP:', error);
         res.status(500).json({ message: 'Error generating OTP' });
@@ -466,9 +498,28 @@ app.post('/verify-otp', async (req, res) => {
     }
 });
 
+app.get('/jobPoster-payment-bill', async (req, res) => {
+    const jobId = req.query.jobId;
+    
+    try {
+        const job = await acceptedJob.findOne({ _id: jobId });
+        
+        if (!job) {
+            return res.status(404).json({ message: 'Job not found' });
+        }
+
+        res.json({ payment: job.payment });
+    } catch (error) {
+        console.error('Error fetching payment:', error);
+        res.status(500).json({ message: 'Error fetching payment' });
+    }
+});
+
+
 
 const port = 5000;
 
 app.listen(port, () => {
+
     console.log(`Backend server running on http://localhost:5000`);
 });

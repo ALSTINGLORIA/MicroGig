@@ -2,6 +2,23 @@
 const urlParams = new URLSearchParams(window.location.search);
 const jobPosterId = urlParams.get('jobPosterId');
 
+
+
+const durationInput = document.getElementById('jobDuration');
+  const durationError = document.getElementById('durationError');
+
+  durationInput.addEventListener('input', () => {
+    const value = durationInput.value;
+    const regex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
+    if (!regex.test(value)) {
+      durationInput.style.border = '1px solid red';
+      durationError.textContent = 'Invalid time format. Please use HH:MM.';
+    } else {
+      durationInput.style.border = '';
+      durationError.textContent = '';
+    }
+  });
+
 // Check for upcoming jobs on page load
 window.addEventListener('load', async () => {
     try {
@@ -68,6 +85,12 @@ document.getElementById('postJobButton').addEventListener('click', function(even
     document.getElementById('jobForm').style.display = 'flex';
 });
 
+document.getElementById('goback').addEventListener('click', function(event) {
+    event.preventDefault();
+    document.querySelector('.dashboard').style.display = 'flex';
+    document.getElementById('jobForm').style.display = 'none';
+});
+
 // Handle the job upload
 document.getElementById('uploadJob').addEventListener('click', async function(event) {
     event.preventDefault();
@@ -79,8 +102,9 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
     const jobDay = document.getElementById('jobDay').value; 
     const jobLocation = document.getElementById('jobLocation').value;  
     const jobTimeAmPm = document.getElementById('jobTimeAmPm').value; 
+    const jobDuration = document.getElementById('jobDuration').value; 
 
-    if (!jobTitle || !jobDescription || !payment || !jobTime || !jobDay || !jobLocation) {
+    if (!jobTitle || !jobDescription || !payment || !jobTime || !jobDay || !jobLocation || !jobDuration) {
         alert('Please fill in all fields!');
         return;
     }
@@ -94,7 +118,8 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
             day: jobDay, 
             jobAmPm: jobTimeAmPm,
             location: jobLocation,
-            jobPosterId: jobPosterId
+            jobPosterId: jobPosterId,
+            jobDuration: jobDuration
         }
     };
 
@@ -116,6 +141,7 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
             document.getElementById('jobTime').value = ''; 
             document.getElementById('jobDay').value = ''; 
             document.getElementById('jobLocation').value = ''; 
+            document.getElementById('jobDuration').value = ''; 
         } else {
             alert(`Error: ${result.error}`);
         }
@@ -123,4 +149,10 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
         alert('Failed to upload job!');
         console.error('Error uploading job:', err);
     }
+});
+
+document.getElementById('signOutButton').addEventListener('click', function() {
+    alert('You have been signed out.');
+    localStorage.removeItem('jobPosterId');
+    window.location.href = 'home_page.html';
 });
