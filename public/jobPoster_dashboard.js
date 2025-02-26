@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             const result = await response.json();
+            console.log('Server response:', result); // Debugging information
             if (response.ok) {
                 alert('Job uploaded successfully!');
                 document.getElementById('jobForm').reset();
