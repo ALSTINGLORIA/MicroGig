@@ -51,8 +51,26 @@
 
 
         <div class="job-form" id="jobForm">
-            <label for="jobTitle">Title:</label>
-            <input type="text" id="jobTitle" placeholder="Enter job title">
+            <label for="jobCategory">Job Category:</label>
+            <select id="jobCategory" required>
+                <option value="" disabled selected>Select main category</option>
+                <option value="Household Tasks">Household Tasks</option>
+                <option value="Organizational Tasks">Organizational Tasks</option>
+                <option value="Event Assistance">Event Assistance</option>
+                <option value="Delivery & Errands">Delivery & Errands</option>
+                <option value="Manual Labor">Manual Labor</option>
+                <option value="Other">Other</option>
+            </select>
+
+            <label for="jobTitle">Job Title:</label>
+            <select id="jobTitle" required>
+                <option value="" disabled selected>Select a job</option>
+            </select>
+
+            <div id="customJobInput" style="display: none;">
+                <label for="customJob">Specify Job:</label>
+                <input type="text" id="customJob" placeholder="Enter custom job title">
+            </div>
 
             <label for="jobDescription">Description:</label>
             <textarea id="jobDescription" rows="5" placeholder="Enter job description"></textarea>
