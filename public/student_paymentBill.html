@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Completed</title>
+    <link rel="stylesheet" href="student_paymentBill.css">
+</head>
+<body>
+    <h1>Arrival Verified</h1>
+    <div id="paymentDetails">
+        <h2>Payment Information</h2>
+        <p>Payment Amount: <span id="paymentAmount"></span></p>
+    </div>
+    <button id="reportButton">Report Job Poster</button>
+    <select id="reportDropdown" style="display: none;">
+        <option value="payment_not_done">Payment not done</option>
+        <option value="jobPoster_harassing">Job Poster is harassing</option>
+        <option value="jobPoster_cancelled_due_to_circumstances">Job Poster cancelled job due to uncontrollable circumstances</option>
+        <option value="jobPoster_cancelled_without_reason">Job Poster cancelled job without any reason</option>
+        <option value="jobPoster_not_available">Job Poster was not available at location</option>
+    </select>
+
+    <button id="jobCompleted"> Go Back To Dashboard</button>
+    <script src="student_paymentBill.js"></script>
+</body>
+</html>

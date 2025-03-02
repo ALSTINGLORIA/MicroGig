@@ -1,6 +1,7 @@
 // Get jobId from URL parameters
 const urlParams = new URLSearchParams(window.location.search);
 const jobId = urlParams.get('jobId');
+const jobPosterId = localStorage.getItem('jobPosterId');
 
 // Fetch payment details when page loads
 window.addEventListener('load', async () => {
@@ -19,4 +20,9 @@ window.addEventListener('load', async () => {
         console.error('Error:', error);
         alert('An error occurred while fetching payment details');
     }
+});
+
+document.getElementById('jobCompleted').addEventListener('click', async (event) => {
+    window.location.replace(`/jobPoster_dashboard.html?jobPosterId=${jobPosterId}`);
+    
 });

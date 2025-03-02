@@ -7,9 +7,17 @@ async function loadAcceptedJobs() {
             throw new Error("Failed to fetch accepted jobs.");
         }
         const jobs = await response.json();
+
+        const response2 = await fetch(`http://localhost:5000/accepted-jobs-cancel-rate?jobPosterId=${jobPosterId}`);
+        if (!response2.ok) {
+            throw new Error("Failed to fetch accepted jobs2.");
+        }
+        const rates = await response2.json();
+
         const container = document.getElementById('acceptedJobsContainer');
 
         jobs.forEach(job => {
+            const rate = rates.find((response2) => response2._id === job.studentId);
             const jobElement = document.createElement('div');
             jobElement.innerHTML = `
                 <h3>${job.title}</h3>
@@ -22,6 +30,7 @@ async function loadAcceptedJobs() {
                 <p>Accepted by: ${job.studentName}</p>
                 <p>${job.email}</p>
                 <p>${job.phoneNo}</p>
+                <p>Student Cancellations this month: ${rate.cancelled}</p>
                 
             `;
             container.appendChild(jobElement);

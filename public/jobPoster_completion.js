@@ -4,7 +4,6 @@ const jobId = urlParams.get('jobId');
 
 // Get job details on page load
 window.addEventListener('load', async () => {
-
     const urlParams = new URLSearchParams(window.location.search);
     const jobId = urlParams.get('jobId');
 
@@ -50,7 +49,7 @@ async function verifyOTP() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ otp, jobId })
+            body: JSON.stringify({ otp, jobId})
         });
 
         const result = await response.json();
@@ -58,15 +57,15 @@ async function verifyOTP() {
         if (response.ok) {
             document.getElementById('otpMessage').textContent = result.message;
             document.getElementById('otpMessage').style.color = 'green';
-            
-            // Create confirmation button
-            const confirmButton = document.createElement('button');
-            confirmButton.id = 'confirmButton';
-            confirmButton.textContent = 'Job Completion Confirmation';
-            confirmButton.onclick = jobCompletionConfirmation;
-            document.body.appendChild(confirmButton);
 
-
+            setTimeout(() => {
+                document.querySelector('.otp-section').style.display = 'none';
+                const confirmButton = document.createElement('button');
+                confirmButton.id = 'confirmButton';
+                confirmButton.textContent = 'Job Completion Confirmation';
+                confirmButton.onclick = jobCompletionConfirmation;
+                document.body.appendChild(confirmButton);
+              }, 2000); 
         } else {
             document.getElementById('otpMessage').textContent = result.message || 'OTP verification failed';
             document.getElementById('otpMessage').style.color = 'red';
@@ -79,6 +78,18 @@ async function verifyOTP() {
     }
 }
 
-function jobCompletionConfirmation() {
+async function jobCompletionConfirmation() {
+    try {
+        await fetch(`http://localhost:5000/job-completion-confirmation?jobId=${jobId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({jobId})
+        });
+    }catch (error) {
+        console.error('Error confirming job completion:', error);
+        alert('An error occurred while confirming job completion');
+    }
     window.location.href = `jobPoster_paymentBill.html?jobId=${jobId}`;
 }

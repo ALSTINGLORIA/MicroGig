@@ -16,3 +16,6 @@ const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has('message') && urlParams.get('message') === 'success') {
     alert('Successfully signed in');
 }
+else if(urlParams.has('message') && urlParams.get('message') === 'blacklisted'){
+    alert('You have been removed from our platform due to certain reasons. Please contact us for more information.');
+}

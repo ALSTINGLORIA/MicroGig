@@ -38,7 +38,7 @@ async function cancelJob(jobId) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ jobId })
+            body: JSON.stringify({ jobId, studentId })
         });
         
         if (!response.ok) {
