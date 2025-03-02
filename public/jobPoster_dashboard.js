@@ -1,7 +1,37 @@
-// Handle profile button click
-const urlParams = new URLSearchParams(window.location.search);
-const jobPosterId = urlParams.get('jobPosterId');
+document.addEventListener('DOMContentLoaded', () => {
+    // Get jobPosterId from URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    const jobPosterId = urlParams.get('jobPosterId');
+    localStorage.setItem('jobPosterId', jobPosterId);
 
+    // Job categories with dropdown logic
+    const jobCategorySelect = document.getElementById('jobCategory');
+    const jobTitleSelect = document.getElementById('jobTitle');
+    const customJobInput = document.getElementById('customJobInput');
+    const customJob = document.getElementById('customJob');
+
+    // Show/hide custom job input based on selection
+    jobCategorySelect.addEventListener('change', () => {
+        const selectedCategory = jobCategorySelect.value;
+        jobTitleSelect.innerHTML = '<option value="" disabled selected>Select a job</option>';
+        
+        if (selectedCategory === "Other") {
+            customJobInput.style.display = 'block';
+            customJob.required = true;
+            jobTitleSelect.style.display = 'none';
+        } else {
+            customJobInput.style.display = 'none';
+            customJob.required = false;
+            jobTitleSelect.style.display = 'block';
+
+            jobCategories[selectedCategory].forEach(job => {
+                const option = document.createElement('option');
+                option.value = job;
+                option.textContent = job;
+                jobTitleSelect.appendChild(option);
+            });
+        }
+    });
 
 
 const durationInput = document.getElementById('jobDuration');
@@ -151,8 +181,72 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
     }
 });
 
-document.getElementById('signOutButton').addEventListener('click', function() {
+// Sign out logic
+document.getElementById('signOutButton').addEventListener('click', () => {
     alert('You have been signed out.');
-    localStorage.removeItem('jobPosterId');
-    window.location.href = 'home_page.html';
+    localStorage.clear();
+    sessionStorage.clear(); // Clear session storage
+    window.location.href = 'login_page.html';
+});
+ // Job categories and subcategories
+ const jobCategories = {
+    "Household Tasks": [
+        "Car washing",
+        "Watering plants",
+        "Gardening",
+        "Lawn mowing",
+        "Decluttering rooms",
+        "Grocery shopping"
+    ],
+    "Organizational Tasks": [
+        "Setting up a device",
+        "Sorting items",
+        "Arranging books or files",
+        "Organizing a small event",
+        "Running errands"
+    ],
+    "Event Assistance": [
+        "Distributing flyers",
+        "Setting up chairs/tables",
+        "Decorating event spaces",
+        "Assisting guests",
+        "Cleaning up after events"
+    ],
+    "Delivery & Errands": [
+        "Picking up groceries",
+        "Delivering packages",
+        "Collecting laundry",
+        "Queuing for services (like at banks)"
+    ],
+    "Manual Labor": [
+        "Moving light furniture",
+        "Lifting boxes",
+        "Unloading small deliveries",
+        "Packing items"
+    ],
+    "Other": ["custom"]
+};
+
+// Function to populate job titles based on selected category
+jobCategorySelect.addEventListener('change', () => {
+    const selectedCategory = jobCategorySelect.value;
+    jobTitleSelect.innerHTML = '<option value="" disabled selected>Select a job</option>';
+    
+    if (selectedCategory === "Other") {
+        customJobInput.style.display = 'block';
+        customJob.required = true;
+        jobTitleSelect.style.display = 'none';
+    } else {
+        customJobInput.style.display = 'none';
+        customJob.required = false;
+        jobTitleSelect.style.display = 'block';
+
+        jobCategories[selectedCategory].forEach(job => {
+            const option = document.createElement('option');
+            option.value = job;
+            option.textContent = job;
+            jobTitleSelect.appendChild(option);
+        });
+    }
+});
 });
