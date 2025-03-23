@@ -1,7 +1,37 @@
-// Handle profile button click
-const urlParams = new URLSearchParams(window.location.search);
-const jobPosterId = urlParams.get('jobPosterId');
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const urlParams = new URLSearchParams(window.location.search);
+    const jobPosterId = urlParams.get('jobPosterId');
+    localStorage.setItem('jobPosterId', jobPosterId);
 
+    
+    const jobCategorySelect = document.getElementById('jobCategory');
+    const jobTitleSelect = document.getElementById('jobTitle');
+    const customJobInput = document.getElementById('customJobInput');
+    const customJob = document.getElementById('customJob');
+
+    
+    jobCategorySelect.addEventListener('change', () => {
+        const selectedCategory = jobCategorySelect.value;
+        jobTitleSelect.innerHTML = '<option value="" disabled selected>Select a job</option>';
+        
+        if (selectedCategory === "Other") {
+            customJobInput.style.display = 'block';
+            customJob.required = true;
+            jobTitleSelect.style.display = 'none';
+        } else {
+            customJobInput.style.display = 'none';
+            customJob.required = false;
+            jobTitleSelect.style.display = 'block';
+
+            jobCategories[selectedCategory].forEach(job => {
+                const option = document.createElement('option');
+                option.value = job;
+                option.textContent = job;
+                jobTitleSelect.appendChild(option);
+            });
+        }
+    });
 
 
 const durationInput = document.getElementById('jobDuration');
@@ -19,7 +49,7 @@ const durationInput = document.getElementById('jobDuration');
     }
   });
 
-// Check for upcoming jobs on page load
+
 window.addEventListener('load', async () => {
     try {
         const response = await fetch(`http://localhost:5000/check-job-today-poster?jobPosterId=${jobPosterId}`);
@@ -27,18 +57,18 @@ window.addEventListener('load', async () => {
         
         if (jobs.length > 0) {
             jobs.forEach(job => {
-                // Create popup container
+
                 const popup = document.createElement('div');
                 popup.className = 'job-popup';
                 
-                // Add close button
+        
                 const closeBtn = document.createElement('span');
                 closeBtn.className = 'close-popup';
                 closeBtn.innerHTML = '&times;';
                 closeBtn.onclick = () => popup.remove();
                 popup.appendChild(closeBtn);
                 
-                // Add job details
+                
                 const content = document.createElement('div');
                 content.innerHTML = `
                     <h3>Upcoming Job</h3>
@@ -50,14 +80,14 @@ window.addEventListener('load', async () => {
                 `;
                 popup.appendChild(content);
 
-                // Add Proceed button
+                
                 const proceedBtn = content.querySelector('.proceedBtn');
                 proceedBtn.onclick = () => {
                     const jobId = job._id;
                     window.location.href = `jobPoster_completion.html?jobId=${jobId}`;
                 };
                 
-                // Add to document
+                
                 document.body.appendChild(popup);
 
             });
@@ -78,7 +108,7 @@ document.getElementById('notificationButton').addEventListener('click', function
     window.location.href = `accepted_jobs.html?jobPosterId=${jobPosterId}`;
 });
 
-// Toggle the job form visibility
+
 document.getElementById('postJobButton').addEventListener('click', function(event) {
     event.preventDefault();
     document.querySelector('.dashboard').style.display = 'none';
@@ -91,7 +121,7 @@ document.getElementById('goback').addEventListener('click', function(event) {
     document.getElementById('jobForm').style.display = 'none';
 });
 
-// Handle the job upload
+
 document.getElementById('uploadJob').addEventListener('click', async function(event) {
     event.preventDefault();
     
@@ -151,8 +181,72 @@ document.getElementById('uploadJob').addEventListener('click', async function(ev
     }
 });
 
-document.getElementById('signOutButton').addEventListener('click', function() {
+
+document.getElementById('signOutButton').addEventListener('click', () => {
     alert('You have been signed out.');
-    localStorage.removeItem('jobPosterId');
-    window.location.href = 'home_page.html';
+    localStorage.clear();
+    sessionStorage.clear(); 
+    window.location.href = 'login_page.html';
+});
+ 
+ const jobCategories = {
+    "Household Tasks": [
+        "Car washing",
+        "Watering plants",
+        "Gardening",
+        "Lawn mowing",
+        "Decluttering rooms",
+        "Grocery shopping"
+    ],
+    "Organizational Tasks": [
+        "Setting up a device",
+        "Sorting items",
+        "Arranging books or files",
+        "Organizing a small event",
+        "Running errands"
+    ],
+    "Event Assistance": [
+        "Distributing flyers",
+        "Setting up chairs/tables",
+        "Decorating event spaces",
+        "Assisting guests",
+        "Cleaning up after events"
+    ],
+    "Delivery & Errands": [
+        "Picking up groceries",
+        "Delivering packages",
+        "Collecting laundry",
+        "Queuing for services (like at banks)"
+    ],
+    "Manual Labor": [
+        "Moving light furniture",
+        "Lifting boxes",
+        "Unloading small deliveries",
+        "Packing items"
+    ],
+    "Other": ["custom"]
+};
+
+
+jobCategorySelect.addEventListener('change', () => {
+    const selectedCategory = jobCategorySelect.value;
+    jobTitleSelect.innerHTML = '<option value="" disabled selected>Select a job</option>';
+    
+    if (selectedCategory === "Other") {
+        customJobInput.style.display = 'block';
+        customJob.required = true;
+        jobTitleSelect.style.display = 'none';
+    } else {
+        customJobInput.style.display = 'none';
+        customJob.required = false;
+        jobTitleSelect.style.display = 'block';
+
+        jobCategories[selectedCategory].forEach(job => {
+            const option = document.createElement('option');
+            option.value = job;
+            option.textContent = job;
+            jobTitleSelect.appendChild(option);
+        });
+    }
+});
 });

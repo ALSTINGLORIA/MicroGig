@@ -8,7 +8,7 @@
 </head>
 <body>
 
-  <!-- Profile Sidebar -->
+
   <div class="sidebar" id="sidebar">
     <div class="sidebar-content">
       <h2>Student Profile</h2>
@@ -20,19 +20,17 @@
     </div>
   </div>
 
-  <!-- Main Dashboard -->
+  
   <div class="dashboard">
     <button class="profile-btn" onclick="toggleSidebar()">Profile</button>
     <h1>Student Dashboard</h1>
     
-    <!-- Accepted Jobs Button -->
+
     <button class="accepted-jobs-btn" onclick="window.location.href='student_acceptedJobs.html?studentId=' + localStorage.getItem('studentId')">
       Accepted Jobs
     </button>
 
-    <!-- Job Listings Section -->
     <div id="job-listings">
-      <!-- Dynamically populated job listings will go here -->
     </div>
 
   </div>

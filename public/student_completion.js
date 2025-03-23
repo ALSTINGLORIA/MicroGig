@@ -3,7 +3,7 @@ const jobId = urlParams.get('jobId');
 
 
 
-// Get job details on page load
+
 window.addEventListener('load', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const jobId = urlParams.get('jobId');
@@ -14,7 +14,7 @@ window.addEventListener('load', async () => {
         console.log(jobDetails);
 
         if (response.ok) {
-            // Display job details
+        
             document.getElementById('jobTitle').textContent = jobDetails.jobInfo.title;
             document.getElementById('jobDescription').textContent = jobDetails.jobInfo.description;
             document.getElementById('jobPayment').textContent = jobDetails.jobInfo.payment;
@@ -77,7 +77,7 @@ async function resendOTP() {
 }
 
 
-// Add event listeners
+
 document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('generateOtpButton').addEventListener('click', generateOTP);
     document.getElementById('resendOtpButton').addEventListener('click', resendOTP);

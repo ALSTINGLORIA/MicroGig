@@ -45,5 +45,5 @@ function goBack() {
     window.history.back();
 }
 
-// Load accepted jobs on page load
+
 window.onload = loadAcceptedJobs;

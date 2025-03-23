@@ -29,8 +29,7 @@
             <div class="card">
                 <h3>Profile</h3>
                 <p>Manage your personal and business details.</p>
-<a href="#" class="button" id="profileButton">Profile</a>
-
+                <a href="#" class="button" id="profileButton">Profile</a>
             </div>
             <div class="card">
                 <h3>Post Jobs</h3>
@@ -42,17 +41,29 @@
                 <p>Manage in-app payments and transactions securely.</p>
                 <a href="#" class="button">Manage Payments</a>
             </div>
-            <!--<div class="card">
-                <h3>Jobs Today</h3>
-                <p>View and confirm jobs being performed today.</p>
-                <a href="#" class="button" id="jobsTodayButton">Jobs Today</a>
-            </div>-->
         </div>
 
+        <form class="job-form" id="jobForm">
+            <label for="jobCategory">Job Category:</label>
+            <select id="jobCategory" required>
+                <option value="" disabled selected>Select main category</option>
+                <option value="Household Tasks">Household Tasks</option>
+                <option value="Organizational Tasks">Organizational Tasks</option>
+                <option value="Event Assistance">Event Assistance</option>
+                <option value="Delivery & Errands">Delivery & Errands</option>
+                <option value="Manual Labor">Manual Labor</option>
+                <option value="Other">Other</option>
+            </select>
 
-        <div class="job-form" id="jobForm">
-            <label for="jobTitle">Title:</label>
-            <input type="text" id="jobTitle" placeholder="Enter job title">
+            <label for="jobTitle">Job Title:</label>
+            <select id="jobTitle" required>
+                <option value="" disabled selected>Select a job</option>
+            </select>
+
+            <div id="customJobInput" style="display: none;">
+                <label for="customJob">Specify Job:</label>
+                <input type="text" id="customJob" placeholder="Enter custom job title">
+            </div>
 
             <label for="jobDescription">Description:</label>
             <textarea id="jobDescription" rows="5" placeholder="Enter job description"></textarea>
@@ -79,7 +90,7 @@
 
             <button id="uploadJob">Upload</button>
             <button id="goback">Go Back</button>
-        </div>
+        </form>
     </div>
 
     <footer>

@@ -1,8 +1,8 @@
-// Function to generate OTP
+
 const urlParams = new URLSearchParams(window.location.search);
 const jobId = urlParams.get('jobId');
 
-// Get job details on page load
+
 window.addEventListener('load', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const jobId = urlParams.get('jobId');
@@ -13,7 +13,7 @@ window.addEventListener('load', async () => {
         console.log(jobDetails);
 
         if (response.ok) {
-            // Display job details
+            
             document.getElementById('jobTitle').textContent = jobDetails.title;
             document.getElementById('jobDescription').textContent = jobDetails.description;
             document.getElementById('jobPayment').textContent = jobDetails.payment;
@@ -33,7 +33,7 @@ window.addEventListener('load', async () => {
     }
 });
 
-// Verify OTP function
+
 async function verifyOTP() {
     const otp = document.getElementById('otpInput').value;
     const jobId = new URLSearchParams(window.location.search).get('jobId');

@@ -36,12 +36,12 @@ document.getElementById("acceptButton").onclick = function() {
 };
 
 function acceptJob(jobId) {
-    const studentId = localStorage.getItem('studentId'); // Retrieve studentId from local storage
+    const studentId = localStorage.getItem('studentId'); 
     console.log(`Job with ID ${jobId} accepted by student ID ${studentId}.`);
 
     fetch('http://localhost:5000/update-job-status', {
         method: 'PATCH',
-        body: JSON.stringify({ jobId,studentId, status: 'accepted' }), // Include studentId in the request
+        body: JSON.stringify({ jobId,studentId, status: 'accepted' }), 
         headers: { 'Content-Type': 'application/json' },
     })
     .then(response => response.json())
@@ -51,7 +51,7 @@ function acceptJob(jobId) {
         } 
         else {
         alert('Job accepted successfully!');
-        loadJobDetails();  // Refresh job listings after accepting the job
+        loadJobDetails();  
         }
     })
     .catch(error => console.error('Error accepting job:', error));
@@ -61,5 +61,5 @@ function goBack() {
     window.history.back();
 }
 
-// Load job details on page load
+
 window.onload = loadJobDetails;

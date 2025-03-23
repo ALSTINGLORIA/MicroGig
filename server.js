@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto'); 
 const cron = require('node-cron');
 
-
+const mongodbURI = process.env.MONGODB_URI;
 const app = express();
 app.use(express.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,7 +16,28 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, 'public/home_page.html'));
 });
 
-mongoose.connect('mongodb+srv://alstingloria:0chacko0@cluster0.bbfhx.mongodb.net/', {});
+mongoose.connect(mongodbURI, {});
+
+const adminSchema = new mongoose.Schema({
+    username: String,
+    password: String
+
+}, { collection: 'admin' });
+
+const admin = mongoose.model('admin', adminSchema);
+
+app.post('/signupAdmin', async (req, res) => {
+    const adminData = new admin(req.body);
+    
+    adminData.password = await bcrypt.hash(adminData.password, 10);
+    try {
+        await adminData.save();
+        res.redirect('/home_page.html?message=success');
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Error saving data');
+    }
+});
 
 const blacklistSchema = new mongoose.Schema({
     aadharNo: String
@@ -33,7 +54,8 @@ const studentSchema = new mongoose.Schema({
     aadharNo: String,
     username: String,
     password: String,
-    cancelled: Number
+    cancelled: Number,
+    verified: Number
 });
 
 const student = mongoose.model('Student', studentSchema);
@@ -45,7 +67,7 @@ app.post('/signupStudent', async (req, res) => {
     let isBlacklisted = false;
 
 for (const blacklisted of blacklistedPasswords) {
-  const match = await bcrypt.compare(studentData.aadharNo, blacklisted.aadharNo);
+    const match = studentData.aadharNo === blacklisted.aadharNo;
   if (match) {
     isBlacklisted = true;
     break;
@@ -54,8 +76,8 @@ for (const blacklisted of blacklistedPasswords) {
 
     if(isBlacklisted == false){
     studentData.password = await bcrypt.hash(studentData.password, 10);
-    studentData.aadharNo = await bcrypt.hash(studentData.aadharNo, 10);
     studentData.cancelled = 0;
+    studentData.verified = 0;
     try {
         await studentData.save();
         res.redirect('/home_page.html?message=success');
@@ -77,7 +99,8 @@ const jobPosterSchema = new mongoose.Schema({
     username: String,
     password: String,
     aadharNo: String,
-    report: Number
+    report: Number,
+    verified: Number
 });
 
 const jobPoster = mongoose.model('JobPoster', jobPosterSchema);
@@ -89,7 +112,7 @@ app.post('/signupJobPoster', async (req, res) => {
     let isBlacklisted = false;
 
 for (const blacklisted of blacklistedPasswords) {
-  const match = await bcrypt.compare(jobPosterData.aadharNo, blacklisted.aadharNo);
+    const match = jobPosterData.aadharNo === blacklisted.aadharNo;
   if (match) {
     isBlacklisted = true;
     break;
@@ -97,8 +120,8 @@ for (const blacklisted of blacklistedPasswords) {
 }
 if(isBlacklisted == false){
     jobPosterData.password = await bcrypt.hash(jobPosterData.password, 10);
-    jobPosterData.aadharNo = await bcrypt.hash(jobPosterData.aadharNo, 10);
     jobPosterData.report = 0;
+    jobPosterData.verified = 0;
     try {
         await jobPosterData.save();
         res.redirect('/home_page.html?message=success');
@@ -123,17 +146,32 @@ app.post('/login', async (req, res) => {
     } else if (role === 'job_poster') {
         user = await jobPoster.findOne({ username });
     }
+    else if(role === 'admin'){
+        user = await admin.findOne({ username });
+    }
 
     if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
-            if (role == 'student'){
-              response = { message: 'Login successful', userid: user._id };
-              res.redirect(`/student_dashboard.html?studentId=${user._id}`); 
+            if(role == 'admin'){
+                response = { message: 'Login successful', userid: user._id };
+                res.redirect('/admin_dashboard.html');
             }
-            else if (role == 'job_poster'){
-              response = { message: 'Login successful', userid: user._id };
-              res.redirect(`/jobPoster_dashboard.html?jobPosterId=${user._id}`);
+            else if(user.verified == 1){
+                if (role == 'student'){
+                response = { message: 'Login successful', userid: user._id };
+                res.redirect(`/student_dashboard.html?studentId=${user._id}`); 
+                }
+                else if (role == 'job_poster'){
+                response = { message: 'Login successful', userid: user._id };
+                res.redirect(`/jobPoster_dashboard.html?jobPosterId=${user._id}`);
+                }
+            }
+            else if(user.verified == 0){
+                res.redirect('/unverified.html');
+            }
+            else if(user.verified == 2){
+                res.redirect('/failed_verification.html');
             }
         } else {
             console.log('Incorrect password'); 
@@ -450,10 +488,9 @@ app.get('/check-job-today-poster', async (req, res) => {
                 const matchingJobDetail = jobDetails.find(jobDetail => jobDetail._id == job.jobId);
                 
                 if (matchingJobDetail) {
-                    const jobTime = matchingJobDetail.time; // Assuming this is in "HH:MM AM/PM" format
+                    const jobTime = matchingJobDetail.time; 
                     const jobTotalMinutes = convertToMinutes(jobTime);
     
-                    // Check if job time is within ±5 minutes of the current time
                     if (Math.abs(jobTotalMinutes - currentTotalMinutes) <= 5) {
                         return true;
                     }
@@ -480,7 +517,6 @@ app.get('/check-job-today-student', async (req, res) => {
     const currentMinute = new Date().getMinutes();
     console.log(currentHour, currentMinute);
 
-    // Function to convert "HH:MM AM/PM" to minutes since midnight
     function convertToMinutes(timeStr) {
         const [time, modifier] = timeStr.split(' ');
         let [hours, minutes] = time.split(':').map(Number);
@@ -511,10 +547,10 @@ app.get('/check-job-today-student', async (req, res) => {
         const matchingJobDetail = jobDetails.find(jobDetail => jobDetail._id == job.jobId);
         
         if (matchingJobDetail) {
-            const jobTime = matchingJobDetail.time; // Assuming this is in "HH:MM AM/PM" format
+            const jobTime = matchingJobDetail.time; 
             const jobTotalMinutes = convertToMinutes(jobTime);
 
-            // Check if job time is within ±5 minutes of the current time
+
             if (Math.abs(jobTotalMinutes - currentTotalMinutes) <= 5) {
                 return true;
             }
@@ -749,7 +785,57 @@ cron.schedule('0 1 * * *', async () => {
     }
 });
 
-const port = 5000;
+app.get('/unverified-users-1', async (req, res) => {
+    try {
+        const unverifiedStudents = await student.find({ verified: 0 });
+        res.json(unverifiedStudents);
+    } catch (err) {
+        console.error('Error fetching unverified users:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.patch('/update-user-1', async (req, res) => {
+    const { userId, status } = req.body;
+    try {
+        const updatedStudent = await student.findByIdAndUpdate(userId, { verified: status }, { new: true });
+        if (!updatedStudent) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        res.json({ message: 'Student verification status updated successfully', student: updatedStudent });
+    } catch (err) {
+        console.error('Error updating student verification status:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.get('/unverified-users-2', async (req, res) => {
+    try {
+        const unverifiedPoster = await jobPoster.find({ verified: 0 });
+        res.json(unverifiedPoster);
+    } catch (err) {
+        console.error('Error fetching unverified users:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+app.patch('/update-user-2', async (req, res) => {
+    const { userId, status } = req.body;
+    try {
+        const updatedPoster = await jobPoster.findByIdAndUpdate(userId, { verified: status }, { new: true });
+        if (!updatedPoster) {
+            return res.status(404).json({ message: 'Student not found' });
+        }
+        res.json({ message: 'Student verification status updated successfully', poster: updatedPoster });
+    } catch (err) {
+        console.error('Error updating student verification status:', err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+const port = 5000; 
+
+
 
 app.listen(port, () => {
     console.log(`Backend server running on http://localhost:5000`);

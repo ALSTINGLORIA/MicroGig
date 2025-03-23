@@ -14,18 +14,15 @@ window.addEventListener('load', async () => {
       
       if (jobs.length > 0) {
         jobs.forEach(job => {
-          // Create popup container
           const popup = document.createElement('div');
           popup.className = 'job-popup';
           
-          // Add close button
           const closeBtn = document.createElement('span');
           closeBtn.className = 'close-popup';
           closeBtn.innerHTML = '&times;';
           closeBtn.onclick = () => popup.remove();
           popup.appendChild(closeBtn);
           
-          // Add job details
           const content = document.createElement('div');
           content.innerHTML = `
               <h3>Upcoming Job</h3>
@@ -42,7 +39,6 @@ window.addEventListener('load', async () => {
                     const jobId = job._id;
                     window.location.href = `student_completion.html?jobId=${jobId}`;
           };
-          // Add to document
           document.body.appendChild(popup);
       });
       }
@@ -52,7 +48,7 @@ window.addEventListener('load', async () => {
 });
 
 async function loadProfile() {
-  // const studentId = localStorage.getItem('studentId'); 
+
 
   if (!studentId) {
     console.error('No student ID found in local storage.');
@@ -80,7 +76,7 @@ async function loadProfile() {
 }
 
 
-// Function to fetch job listings and display them
+
 async function loadJobListings() {
   try {
     const response = await fetch('http://localhost:5000/job-listings');
@@ -88,29 +84,19 @@ async function loadJobListings() {
       throw new Error("Failed to fetch job listings.");
     }
     const jobs = await response.json();
-    console.log('Job listings:', jobs); // Log the job listings to verify
+    console.log('Job listings:', jobs); 
 
-    // Clear previous listings if any
+  
     const jobListingsContainer = document.getElementById('job-listings');
     jobListingsContainer.innerHTML = '';
 
-    // Loop through the jobs and dynamically create job elements
+    
     jobs.forEach(job => {
       if (job.status === 'waiting') {
         const jobElement = document.createElement('div');
         jobElement.classList.add('job');
       
 
-      // let acceptButton = '';
-
-      // Only show the "Accept" button for jobs that are 'waiting'
- /*     if (job.status === 'waiting') {
-        acceptButton = `<button onclick="acceptJob('${job._id}')">Accept</button>`;
-      } else {
-        // For non-waiting jobs, show the button but disabled
-        acceptButton = `<button disabled>Accept (Not Available)</button>`;
-      }
-*/
 
     jobElement.innerHTML = `
         <h3><a href="jobDetails.html?jobId=${job._id}">${job.title}</a></h3>
@@ -128,14 +114,14 @@ async function loadJobListings() {
 }
 
 
-// Function to toggle the sidebar visibility
+
 function toggleSidebar() {
   const sidebar = document.getElementById("sidebar");
-  // Check if the sidebar is off-screen or visible
+
   if (sidebar.style.left === "-300px" || sidebar.style.left === "") {
-    sidebar.style.left = "0";  // Slide in from the left
+    sidebar.style.left = "0";  
   } else {
-    sidebar.style.left = "-300px";  // Slide out to the left
+    sidebar.style.left = "-300px";  
   }
 }
 
@@ -146,7 +132,7 @@ function logout() {
   window.location.href = 'home_page.html';
 }
 
-// Load student profile and job listings on page load
+
 window.onload = function() {
   loadProfile();
   loadJobListings();

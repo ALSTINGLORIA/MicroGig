@@ -45,7 +45,6 @@ async function cancelJob(jobId) {
             throw new Error('Failed to cancel job');
         }
         
-        // Reload the jobs list after successful cancellation
         alert("job has been canceled");
         loadAcceptedJobs();
     } catch (error) {
