@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 const crypto = require('crypto'); 
 const cron = require('node-cron');
 
-const mongodbURI = process.env.MONGODB_URI;
+
 const app = express();
 app.use(express.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -16,12 +16,15 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, 'public/home_page.html'));
 });
 
-mongoose.connect(mongodbURI, {});
+require('dotenv').config();
+mongoose.connect(process.env.MONGODB_URI, {})
+    .then(() => console.log('MongoDB connected successfully'))
+    .catch(err => console.error('MongoDB connection error:', err));
+
 
 const adminSchema = new mongoose.Schema({
     username: String,
     password: String
-
 }, { collection: 'admin' });
 
 const admin = mongoose.model('admin', adminSchema);
@@ -750,7 +753,8 @@ cron.schedule('0 0 1 * *', async () => {
 cron.schedule('0 1 * * *', async () => {
     try {
         const completedJobs = await Job.find({ status: 'completed' });
-        const abc = await Job.find({ status: 'completed' });
+        // Removed unused variable
+
         for (const job of completedJobs) {
             const otpId = await acceptedJob.findOne({ jobId: job._id });
             await Otp.deleteMany({ jobId: otpId._id });
