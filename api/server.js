@@ -17,7 +17,6 @@ app.get("/", (req, res) => {
 });
 
 require('dotenv').config();
-console.log(process.env.MONGODB_URI);
 mongoose.connect(process.env.MONGODB_URI, {})
     .then(() => console.log('MongoDB connected successfully'))
     .catch(err => console.error('MongoDB connection error:', err));
@@ -838,9 +837,7 @@ app.patch('/update-user-2', async (req, res) => {
     }
 });
 
-const port = 5000; 
-
-
+const port = 3000; 
 
 app.listen(port, () => {
     console.log(`Backend server running on http://localhost:5000`);
