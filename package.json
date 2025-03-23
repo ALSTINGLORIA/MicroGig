@@ -2,7 +2,7 @@
   "name": "mini-project",
   "version": "1.0.0",
   "main": "home_page.js",
-  "engines":{ "node": "22."
+  "engines":{ "node": "22.x"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
